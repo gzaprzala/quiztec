@@ -1,0 +1,36 @@
+{
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ],
+  "include": ["./src/**/*.ts"],
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "../server/",
+    "rootDir": "src/",
+    "composite": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "#shared/*": ["../../shared/src/*"],
+      "#types/*": ["../../shared/src/types/*"]
+    },
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "tsBuildInfoFile": "backend.tsbuildinfo"
+  }
+}

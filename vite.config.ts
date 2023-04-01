@@ -1,18 +1,60 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import alias from "@rollup/plugin-alias";
+import react from "@vitejs/plugin-react-swc";
 
-// https://vitejs.dev/config/
+import { resolve } from "path";
+import {
+  frontendDevelopmentPath,
+  frontendProductionPath,
+  serverPort,
+} from "./shared/src/constants";
+import { cwd } from "process";
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), alias()],
 
-  root: './frontend',
+  root: frontendDevelopmentPath,
+
+  server: {
+    port: serverPort,
+    host: "0.0.0.0",
+  },
 
   build: {
-    minify: 'esbuild',
+    minify: "esbuild",
     manifest: true,
-    target: 'esnext',
-    outDir: '../web',
-    cssTarget: 'esnext',
+    target: "esnext",
+    outDir: frontendProductionPath,
+    cssTarget: "esnext",
     emptyOutDir: true,
   },
-})
+
+  resolve: {
+    alias: [
+      { find: "#shared", replacement: resolve(cwd(), "shared/src") },
+      { find: "#types", replacement: resolve(cwd(), "shared/src/types") },
+      {
+        find: "#components",
+        replacement: resolve(frontendDevelopmentPath, "src/components"),
+      },
+      {
+        find: "#pages",
+        replacement: resolve(frontendDevelopmentPath, "src/pages"),
+      },
+      {
+        find: "#styles",
+        replacement: resolve(frontendDevelopmentPath, "src/styles"),
+      },
+      {
+        find: "#assets",
+        replacement: resolve(frontendDevelopmentPath, "src/assets"),
+      },
+    ],
+  },
+
+  css: {
+    modules: {
+      localsConvention: "camelCaseOnly",
+    },
+  },
+});
