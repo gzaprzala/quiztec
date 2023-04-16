@@ -1,0 +1,21 @@
+@import 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1';
+
+
+.material-symbol {
+  font-variation-settings: 'FILL 0';
+
+  color: white;
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 2.4rem;
+
+  user-select: none;
+
+  transition: all ease-in-out .1s;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  flex-shrink: 0;
+}
