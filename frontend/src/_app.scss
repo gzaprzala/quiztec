@@ -43,3 +43,27 @@ $bigIconSize: 4rem;
 $smallIconSize: 1.2rem;
 
 $borderRadius: 2rem;
+
+
+@mixin backgroundImage() {
+  position: relative;
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+
+    z-index: -1;
+
+    filter: blur(1.5rem);
+    opacity: 0.2;
+
+    background-size: cover;
+    background: repeat center/100% url(../../assets/background.webp);
+  }
+}

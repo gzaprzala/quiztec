@@ -1,13 +1,15 @@
+@use '../../app' as *;
+
 .homeContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-size: cover;
-  background: repeat center/100% url(../../assets/background.svg);
   height: 100%;
   width: auto;
   gap: 3rem;
+
+  @include backgroundImage();
 }
 
 .homeText {
