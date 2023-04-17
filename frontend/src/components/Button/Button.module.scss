@@ -1,0 +1,15 @@
+@use "../../app" as *;
+
+.button {
+  width: 12rem;
+  height: 5rem;
+  background-color: $primaryColor;
+  color: $textColor;
+  font-family: $fontFamily;
+  font-size: 2rem;
+  font-weight: 500;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}

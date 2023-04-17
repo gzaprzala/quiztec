@@ -1,0 +1,15 @@
+@use "../../app" as *;
+
+.input {
+  width: 32rem;
+  padding: 1rem 1.5rem;
+  background-color: $widgetColor;
+  color: $textColor;
+  font-family: $fontFamily;
+  font-weight: 500;
+  font-size: 1em;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 15px;
+  outline: none;
+}
