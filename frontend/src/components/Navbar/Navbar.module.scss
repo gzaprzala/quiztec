@@ -1,13 +1,11 @@
+@use '../../app' as *;
+
 .navbarContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 6rem;
-  background-color: #20222c;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
+  background-color: $widgetColor;
   font-size: 3rem;
 }
 
@@ -70,7 +68,7 @@
 .navbarMenuDown,
 .navbarMenuUp {
   width: 20rem;
-  background-color: #20222c;
+  background-color: $widgetColor;
   position: fixed;
   right: 0;
   top: 6rem;
