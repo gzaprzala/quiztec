@@ -1,29 +1,50 @@
 {
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ],
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
+    "useDefineForClassFields": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "jsx": "react-jsx",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "noEmit": true,
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": "src",
-    "rootDir": "src/"
-  },
-  "include": ["src"],
-  "paths": {
-    "#shared/*": ["../../shared/src/*"],
-    "#types/*": ["../../shared/src/types/*"],
-    "#components/*": ["./components/*"],
-    "#pages/*": ["./pages/*"],
-    "#assets/*": ["./assets/*"]
+    "rootDir": "src/",
+    "paths": {
+      "#shared/*": [
+        "../../shared/src/*"
+      ],
+      "#types/*": [
+        "../../shared/src/types/*"
+      ],
+      "#components/*": [
+        "./components/*"
+      ],
+      "#pages/*": [
+        "./pages/*"
+      ],
+      "#assets/*": [
+        "./assets/*"
+      ]
+    }
   }
 }
