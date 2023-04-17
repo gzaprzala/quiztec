@@ -1,0 +1,91 @@
+.navbarContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 6rem;
+  background-color: #20222c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  font-size: 3rem;
+}
+
+.navbarLeft {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+  height: 100%;
+  padding-left: 3rem;
+}
+
+.navbarRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 50%;
+  height: 100%;
+  padding-right: 3rem;
+}
+
+.navbarLogo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.navbarLogo:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.navbarTextBold {
+  font-weight: 500;
+}
+
+.navbarText {
+  font-weight: 300;
+}
+
+.navbarIcon,
+.navbarMenuIcon {
+  font-size: 30px !important;
+  height: fit-content !important;
+  width: fit-content !important;
+}
+
+.navbarMenuIcon {
+  padding-left: 1rem;
+}
+
+.navbarIcon:hover,
+.navbarMenuIcon:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.navbarMenuDown,
+.navbarMenuUp {
+  width: 20rem;
+  background-color: #20222c;
+  position: fixed;
+  right: 0;
+  top: 6rem;
+  z-index: 9999;
+  transition: 0.5s;
+}
+
+.navbarMenuDown {
+  height: calc(100% - 6rem);
+  opacity: 1;
+  font-size: 2.4rem;
+}
+
+.navbarMenuUp {
+  height: 0rem;
+  font-size: 0;
+  opacity: 0;
+}
