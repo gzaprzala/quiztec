@@ -1,0 +1,42 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background: repeat center/100% url(../../assets/background.svg);
+  height: 100%;
+  width: auto;
+  gap: 3rem;
+}
+
+.loginText {
+  font-size: 4rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.loginLink {
+  font-size: 1.5rem;
+}
+
+.loginLink:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.loginButton {
+  width: 10rem;
+  height: 4rem;
+  font-size: 2rem;
+}
+
+form {
+  font-size: 1.7rem;
+}

@@ -1,0 +1,38 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background: repeat center/100% url(../../assets/background.svg);
+  height: 100%;
+  width: auto;
+  gap: 3rem;
+}
+
+.homeText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.homeTextUpper {
+  font-size: 4.4rem;
+}
+
+.homeButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.homeButton {
+  height: 3.8rem;
+  width: 11rem;
+  font-size: 1.9rem;
+}

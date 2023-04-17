@@ -1,4 +1,4 @@
-@use "../../app" as *;
+@use '../../app' as *;
 
 .button {
   width: 12rem;
@@ -12,4 +12,9 @@
   border: none;
   border-radius: 20px;
   outline: none;
+}
+
+.button:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }

@@ -1,0 +1,42 @@
+.registerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background: repeat center/100% url(../../assets/background.svg);
+  height: 100%;
+  width: auto;
+  gap: 3rem;
+}
+
+.registerText {
+  font-size: 4rem;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.registerLink {
+  font-size: 1.5rem;
+}
+
+.registerLink:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.registerButton {
+  width: 10rem;
+  height: 4rem;
+  font-size: 2rem;
+}
+
+form {
+  font-size: 1.7rem;
+}
