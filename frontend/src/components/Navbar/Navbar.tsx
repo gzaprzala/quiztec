@@ -30,9 +30,19 @@ const Navbar = () => {
           }}
         />
         <div
-          className={
+          className={[
+            style.navbarMenu,
             menuActive ? style.navbarMenuDown : style.navbarMenuUp
-          }></div>
+          ].join(' ')}
+        >
+          <Link to='/'>
+            Homepage
+          </Link>
+
+          <Link to='/categories'>
+            Categories
+          </Link>
+        </div>
       </div>
     </div>
   );
