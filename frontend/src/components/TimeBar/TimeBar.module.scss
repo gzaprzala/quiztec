@@ -1,0 +1,19 @@
+@use "../../app" as *;
+
+.timeBar {
+  width: 80%;
+  height: 20px;
+  border-radius: 15px;
+  position: relative;
+  background-color: $widgetColor;
+}
+
+.innerBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 15px;
+  background-color: $purple;
+  transition: width 1s linear;
+}

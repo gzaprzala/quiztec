@@ -1,0 +1,33 @@
+@use "../../app" as *;
+
+.button {
+  width: 28rem;
+  height: 8rem;
+  background-color: $widgetColor;
+  color: $textColor;
+  font-family: $fontFamily;
+  font-size: 2rem;
+  font-weight: 500;
+  box-sizing: border-box;
+  border: 2px solid $widgetColor;
+  border-radius: 10px;
+  outline: none;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+}
+
+.correct {
+  background-color: $green;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.incorrect {
+  background-color: $red;
+  &:hover {
+    opacity: 1;
+  }
+}

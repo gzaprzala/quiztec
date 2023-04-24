@@ -1,0 +1,14 @@
+@use "../../app" as *;
+
+.questionDots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid $widgetColor;
+  border-radius: 50%;
+}
