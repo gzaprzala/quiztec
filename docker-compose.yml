@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER:?DB_USER is not set}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is not set}
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_PASSWORD:?DB_PASSWORD is not set}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD:?DB_PASSWORD is not set}
+      ME_CONFIG_MONGODB_URL: mongodb://root:test@mongo:27017/
+
+  cache:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass ${DB_PASSWORD:?DB_PASSWORD is not set}
