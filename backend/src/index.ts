@@ -1,11 +1,12 @@
 import registerAliases from "module-alias";
+import 'dotenv/config';
 
 if (process.env.NODE_DEV !== "true") {
   registerAliases();
 }
 
 import { createServer, ViteDevServer } from "vite";
-import express, { Express, RequestHandler } from "express";
+import express from "express";
 import { accessControl, invalidRoute, logger } from "./server/middlewares";
 import { apiRouter } from "./server/routers/apiRouter";
 import compression, { CompressionOptions } from "compression";
@@ -17,6 +18,28 @@ import {
 } from "#shared/constants";
 import chalk from "chalk";
 import path from "path";
+import { Database } from "#database/Database";
+import { User as UserEntity } from '#database/entities/User';
+import session from "express-session";
+import RedisStore from 'connect-redis';
+import passport from "passport";
+
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface User extends UserEntity {}
+  }
+}
+
+declare module 'express-session' {
+  interface SessionData {
+    passport: {
+      user: string;
+    };
+  }
+}
 
 const compressionOptions: CompressionOptions = {
   level: 7,
@@ -30,6 +53,28 @@ const main = async (): Promise<void> => {
 
   app.use(logger);
   app.use(compression(compressionOptions));
+
+  app.use(session({
+    // secret: randomBytes(32).toString('hex'),
+    secret: 'SUPER_SECRET_SECRET',
+    resave: false,
+    saveUninitialized: false,
+    name: 'quiztec-auth',
+    rolling: true,
+    cookie: {
+      signed: true,
+      httpOnly: true,
+      maxAge: 30 * 60 * 1000,
+    },
+    store: new RedisStore({
+      client: await Database.getRedisClient(),
+      prefix: 'session_store:',
+    }),
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   app.use("/api", apiRouter);
 
   if (isDevMode) {
