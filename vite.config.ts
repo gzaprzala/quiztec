@@ -49,6 +49,10 @@ export default defineConfig({
         find: "#assets",
         replacement: resolve(frontendDevelopmentPath, "src/assets"),
       },
+      {
+        find: '#providers',
+        replacement: resolve(frontendDevelopmentPath, 'src/providers')
+      },
     ],
   },
 

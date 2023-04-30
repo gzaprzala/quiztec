@@ -44,7 +44,10 @@
       ],
       "#assets/*": [
         "./assets/*"
-      ]
+      ],
+      "#providers/*": [
+        "./providers/*"
+      ],
     }
   }
 }

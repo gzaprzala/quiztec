@@ -4,7 +4,10 @@
       "path": "../shared"
     }
   ],
-  "include": ["./src/**/*.ts"],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.json"
+  ],
   "compilerOptions": {
     "target": "ESNEXT",
     "module": "commonjs",
@@ -22,13 +25,19 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
-      "#shared/*": ["../../shared/src/*"],
-      "#types/*": ["../../shared/src/types/*"]
+      "#shared/*": [
+        "../../shared/src/*"
+      ],
+      "#types/*": [
+        "../../shared/src/types/*"
+      ],
+      "#database/*": [
+        "./database/*"
+      ],
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "tsBuildInfoFile": "backend.tsbuildinfo"
