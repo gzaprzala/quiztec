@@ -6,56 +6,6 @@ import { useEffect, useState } from 'react';
 import { GetQuizListResponse } from '#types/api/quiz';
 
 import style from './Categories.module.scss';
-// import csgo from '#assets/grids/csgo.webp';
-// import valorant from '#assets/grids/valorant.webp';
-// import fortnite from '#assets/grids/fortnite.webp';
-// import lol from '#assets/grids/lol.webp';
-
-// const categories: CategoryProps[] = [
-//   {
-//     developer: 'Valve',
-//     title: 'Counter-Strike: Global Offensive',
-//     tags: ['FPS', 'Shooter', 'Multiplayer'],
-//     rating: 72,
-//     players: 2302,
-//     achievements: 6,
-//     totalAchievements: 23,
-//     author: 'quiztec team',
-//     backgroundImageUrl: csgo,
-//   },
-//   {
-//     developer: 'Riot Games',
-//     title: 'Valorant',
-//     tags: ['FPS', 'Shooter', 'Multiplayer'],
-//     rating: 22,
-//     players: 214,
-//     achievements: 6,
-//     totalAchievements: 23,
-//     author: 'quiztec team',
-//     backgroundImageUrl: valorant,
-//   }, {
-//     developer: 'Epics Games',
-//     title: 'Fortnite',
-//     tags: ['Battle Royale', 'Shooter', 'Multiplayer'],
-//     rating: 55,
-//     players: 112,
-//     achievements: 6,
-//     totalAchievements: 23,
-//     author: 'quiztec team',
-//     backgroundImageUrl: fortnite,
-//   },
-//   {
-//     developer: 'Riot Games',
-//     title: 'League of Legends',
-//     tags: ['MOBA', 'Strategy', 'Multiplayer'],
-//     rating: 50,
-//     players: 723,
-//     achievements: 6,
-//     totalAchievements: 23,
-//     author: 'quiztec team',
-//     backgroundImageUrl: lol,
-//   }
-// ];
 
 export default function Categories() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
