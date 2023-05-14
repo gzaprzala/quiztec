@@ -7,13 +7,33 @@
   justify-content: center;
   height: 100%;
   width: auto;
-  gap: 3rem;
+  // gap: 3rem;
 
   @include backgroundImage();
 }
 
 .registerText {
   font-size: 4rem;
+}
+
+.errorContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  margin-top: 1rem;
+  min-height: $altFontSize;
+  max-width: 32rem;
+
+  .errorText {
+    font-size: $altFontSize;
+    color: $red;
+
+    font-weight: 500;
+    line-height: $altFontSize;
+
+    animation: errorEnterAnimation 0.5s ease-in-out;
+  }
 }
 
 .registerForm {
@@ -41,4 +61,14 @@
 
 form {
   font-size: 1.7rem;
+}
+
+@keyframes errorEnterAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
