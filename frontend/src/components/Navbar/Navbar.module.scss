@@ -55,6 +55,14 @@
   width: fit-content !important;
 }
 
+.navbarAvatar {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
 .navbarMenuIcon {
   padding-left: 1rem;
 }
@@ -99,4 +107,8 @@
   padding: 2rem 0;
 
   gap: 2rem;
+
+  & > * {
+    cursor: pointer;
+  }
 }
