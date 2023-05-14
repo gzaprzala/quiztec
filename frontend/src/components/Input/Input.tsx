@@ -1,8 +1,19 @@
-import style from "./Input.module.scss";
+import { InputHTMLAttributes, MutableRefObject } from 'react';
+import style from './Input.module.scss';
 
-const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => {
+const Input = (
+  props: InputHTMLAttributes<HTMLInputElement> & {
+    inputRef?: MutableRefObject<HTMLInputElement | null>;
+  }
+) => {
+  const { inputRef, ...rest } = props;
+
   return (
-    <input {...props} className={[style.input, props.className].join(" ")} />
+    <input
+      ref={inputRef}
+      {...rest}
+      className={[style.input, props.className].join(' ')}
+    />
   );
 };
 

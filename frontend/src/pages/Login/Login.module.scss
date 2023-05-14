@@ -7,13 +7,32 @@
   justify-content: center;
   height: 100%;
   width: auto;
-  gap: 3rem;
+  // gap: 3rem;
 
   @include backgroundImage();
 }
 
 .loginText {
   font-size: 4rem;
+}
+
+.errorContainer {
+  padding: 0;
+  list-style: none;
+
+  margin: 1rem 0;
+  min-height: $altFontSize;
+  max-width: 32rem;
+
+  .errorText {
+    font-size: $altFontSize;
+    color: $red;
+
+    font-weight: 500;
+    line-height: $altFontSize;
+
+    animation: errorEnterAnimation 0.5s ease-in-out;
+  }
 }
 
 .loginForm {
