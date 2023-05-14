@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_DEV=true node .",
     "dev": "cross-env NODE_DEV=true TS_NODE_PROJECT=./backend/tsconfig.json tsnd -r tsconfig-paths/register ./backend/src/index.ts",
+    "db_init": "cross-env NODE_DEV=true TS_NODE_PROJECT=./backend/tsconfig.json ts-node -r tsconfig-paths/register ./backend/src/db_init.ts",
     "build": "vite build && cd ./backend && tsc -b",
     "lint": "eslint --fix --ext .ts,.tsx ./frontend/src"
   },
