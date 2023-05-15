@@ -11,18 +11,27 @@ export default function Home() {
     <Page>
       <div className={style.homeContainer}>
         <div className={style.homeText}>
-          <span className={style.homeTextUpper}>Are you a true gamer? Take our quizzes and find out!</span>
+          <span className={style.homeTextUpper}>
+            Are you a true gamer? Take our quizzes and find out!
+          </span>
           <span>Join the gaming community and show off your skills</span>
         </div>
         <div className={style.homeButtons}>
           {session.loggedIn ? (
-            <span>Welcome back {session.user?.username ?? '[USERNAME]'}!</span>
+            <div className={style.homeLoggedIn}>
+              <span>
+                Welcome back {session.user?.username ?? '[USERNAME]'}!
+              </span>
+              <Link to='/categories'>
+                <Button className={style.homeButton}>START</Button>
+              </Link>
+            </div>
           ) : (
             <>
-              <Link to="/login">
+              <Link to='/login'>
                 <Button className={style.homeButton}>SIGN IN</Button>
               </Link>
-              <Link to="register">
+              <Link to='register'>
                 <Button className={style.homeButton}>SIGN UP</Button>
               </Link>
             </>
