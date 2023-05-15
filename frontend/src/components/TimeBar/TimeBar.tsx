@@ -1,34 +1,36 @@
-import { useEffect, useState } from "react";
-import styles from "./TimeBar.module.scss";
+import { useEffect, useRef } from 'react';
+import styles from './TimeBar.module.scss';
+import { Answer } from '#shared/types/api/quiz';
 
 interface TimeBarProps {
+  selectedAnswer: Answer | null | undefined;
   duration: number;
   onTimeout: () => void;
 }
 
-const TimeBar = ({ duration, onTimeout }: TimeBarProps) => {
-  const [remainingTime, setRemainingTime] = useState(duration);
+const TimeBar = ({ selectedAnswer, duration, onTimeout }: TimeBarProps) => {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setRemainingTime((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          onTimeout();
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+    ref.current?.style.setProperty('--quiz-time', `${duration}s`);
+    ref.current?.addEventListener('animationend', onTimeout);
 
-    return () => clearInterval(timer);
-  }, [onTimeout]);
+    return () => {
+      ref.current?.removeEventListener('animationend', onTimeout);
+    };
+  }, []);
 
-  const progress = (remainingTime / duration) * 100;
+  useEffect(() => {
+    if (selectedAnswer !== undefined) {
+      ref.current?.classList.remove(styles.animate);
+    } else {
+      ref.current?.classList.add(styles.animate);
+    }
+  }, [selectedAnswer]);
 
   return (
     <div className={styles.timeBar}>
-      <div className={styles.innerBar} style={{ width: `${progress}%` }}></div>
+      <div ref={ref} className={styles.innerBar}></div>
     </div>
   );
 };

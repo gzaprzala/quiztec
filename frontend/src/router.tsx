@@ -1,29 +1,29 @@
-import { createBrowserRouter } from "react-router-dom";
-import Home from "#pages/Home/Home";
-import Login from "#pages/Login/Login";
-import Register from "#pages/Register/Register";
-import Categories from "#pages/Categories/Categories";
-import Quiz from "#pages/Test/Quiz";
+import { createBrowserRouter } from 'react-router-dom';
+import Home from '#pages/Home/Home';
+import Login from '#pages/Login/Login';
+import Register from '#pages/Register/Register';
+import Categories from '#pages/Categories/Categories';
+import Quiz from '#pages/Test/Quiz';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Home />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/register",
+    path: '/register',
     element: <Register />,
   },
   {
-    path: "/categories",
+    path: '/categories',
     element: <Categories />,
   },
   {
-    path: "/quiz",
+    path: '/quiz/:id',
     element: <Quiz />,
   },
 ]);

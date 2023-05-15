@@ -17,3 +17,17 @@
   background-color: $purple;
   transition: width 1s linear;
 }
+
+.animate {
+  animation: timeBar var(--quiz-time) linear;
+}
+
+@keyframes timeBar {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+  }
+}

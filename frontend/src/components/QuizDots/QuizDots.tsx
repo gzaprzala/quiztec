@@ -8,7 +8,7 @@ interface QuizDotsProps {
 const QuizDots = ({ totalQuestions, answeredResults }: QuizDotsProps) => {
   const getColor = (index: number) => {
     const result = answeredResults[index];
-    if (result === null) return "#CCCCCC";
+    if (result === undefined) return "#CCCCCC";
     return result ? "#C3FF51" : "#FF5555";
   };
 
