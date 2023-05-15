@@ -23,14 +23,18 @@ const Navbar = () => {
       </div>
       <div className={style.navbarRight}>
         {session.loggedIn && session.user?.profileImageUrl === null && (
-          <MaterialSymbol symbol='account_circle' class={style.navbarIcon} />
+          <Link to='/profile'>
+            <MaterialSymbol symbol='account_circle' class={style.navbarIcon} />
+          </Link>
         )}
         {session.loggedIn && session.user?.profileImageUrl !== null && (
-          <img
-            className={style.navbarAvatar}
-            src={session.user?.profileImageUrl}
-            alt='?'
-          />
+          <Link to='/profile'>
+            <img
+              className={style.navbarAvatar}
+              src={session.user?.profileImageUrl}
+              alt='?'
+            />
+          </Link>
         )}
 
         <MaterialSymbol

@@ -53,13 +53,14 @@
   font-size: 30px !important;
   height: fit-content !important;
   width: fit-content !important;
+  display: block;
 }
 
 .navbarAvatar {
   width: 3rem;
   height: 3rem;
   object-fit: cover;
-
+  display: block;
   border-radius: 50%;
 }
 

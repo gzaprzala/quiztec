@@ -1,0 +1,65 @@
+@use '../../app' as *;
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+  gap: 3rem;
+
+  @include backgroundImage();
+}
+
+.profileText {
+  font-size: 4rem;
+}
+
+.profileIcon {
+  font-size: 10rem !important;
+  height: fit-content !important;
+  width: fit-content !important;
+  display: block;
+}
+
+.profileAvatar {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.profileButton {
+  width: 10rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+input[type='file']::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: $primaryColor;
+  padding: 3px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+input[type='file']::file-selector-button:hover {
+  background: $primaryBrightColor;
+}
+
+input[type='file'] {
+  font-size: 1.5rem;
+}
