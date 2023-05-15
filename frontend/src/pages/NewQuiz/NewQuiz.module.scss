@@ -1,0 +1,43 @@
+@use '../../app' as *;
+
+.newquizContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+  gap: 3rem;
+
+  @include backgroundImage();
+}
+
+.newquizText {
+  font-size: 4rem;
+}
+
+.newquizForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.newquizButton {
+  width: 10rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+.newquizQuestion {
+  width: 45rem;
+}
+
+.newquizCorrect {
+  background-color: $greenTransparent;
+}
+
+.newquizFalse {
+  background-color: $redTransparent;
+}

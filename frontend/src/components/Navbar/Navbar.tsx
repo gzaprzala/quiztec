@@ -52,7 +52,7 @@ const Navbar = () => {
           <Link to='/'>Homepage</Link>
 
           <Link to='/categories'>Categories</Link>
-
+          {session.loggedIn && <Link to='/newquiz'>Create new quiz</Link>}
           {session.loggedIn && <span onClick={logout}>Logout</span>}
         </div>
       </div>

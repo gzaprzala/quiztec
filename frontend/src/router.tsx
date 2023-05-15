@@ -5,6 +5,7 @@ import Register from '#pages/Register/Register';
 import Categories from '#pages/Categories/Categories';
 import Profile from '#pages/Profile/Profile';
 import Quiz from '#pages/Test/Quiz';
+import NewQuiz from '#pages/NewQuiz/NewQuiz';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile />,
+  },
+  {
+    path: '/newquiz',
+    element: <NewQuiz />,
   },
   {
     path: '/quiz/:id',

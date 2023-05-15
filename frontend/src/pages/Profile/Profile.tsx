@@ -4,7 +4,6 @@ import style from './Profile.module.scss';
 import MaterialSymbol from '#components/MaterialSymbol/MaterialSymbol';
 import Input from '#components/Input/Input';
 import Button from '#components/Button/Button';
-import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [image, setImage] = useState<string | null>(null);
