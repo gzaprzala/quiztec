@@ -1,0 +1,60 @@
+@use "../../app" as *;
+
+.leaderboardContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+}
+
+.pickGame {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  margin-right: 8rem;
+}
+
+.button {
+  width: 20rem;
+  height: 9rem;
+  border-radius: 1rem;
+  color: $textColor;
+  background-color: $widgetColor;
+  outline: none;
+  border: 1px solid $textColor;
+  cursor: pointer;
+  font-size: $altFontSize;
+
+  &:hover {
+    background-color: rgba($purple, 0.4);
+    color: rgba($textColor, 0.8);
+    border: 1px solid $textColor;
+  }
+}
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  width: 120rem;
+  height: 90%;
+}
+
+select {
+  width: 32rem;
+  height: 4rem;
+  background: $widgetColor;
+  color: $textColor;
+  border-radius: 3px;
+  border: 1px solid $textColor;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  text-align: center;
+}

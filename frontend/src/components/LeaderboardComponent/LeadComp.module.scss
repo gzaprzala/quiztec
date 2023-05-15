@@ -1,0 +1,38 @@
+@use "../../app" as *;
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: rgba($purpleBright, 0.2);
+}
+
+thead,
+th {
+  font-weight: 400;
+  background-color: rgba($purpleBright, 0.4);
+}
+
+// img {
+//   border-radius: 50%;
+// }
+
+.indx {
+  width: 6%;
+}
+.profPic {
+  width: 10%;
+}
+
+.value {
+  width: 10%;
+}
