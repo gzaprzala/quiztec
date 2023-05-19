@@ -34,6 +34,9 @@
       "#database/*": [
         "./database/*"
       ],
+      "#lib/*": [
+        "./lib/*"
+      ],
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
