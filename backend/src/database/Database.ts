@@ -9,16 +9,23 @@ import { DailyChallenge } from '#database/entities/DailyChallenge';
 import { Event } from '#database/entities/Event';
 import { Question } from '#database/entities/Question';
 import { Quiz } from '#database/entities/Quiz';
-
+import { ActiveQuiz } from '#database/entities/ActiveQuiz';
+import { GridFSBucket, MongoClient, ReadPreference } from 'mongodb';
+import { Media } from '#database/entities/Media';
 
 export class Database {
   private static instance: Database;
   private dataSource: DataSource;
   private redisClient: Redis;
+  private mongoClient: MongoClient;
+  private storageBucket: GridFSBucket;
 
   private constructor() {
     this.dataSource = new DataSource(Database.databaseOptions);
     this.redisClient = new Redis(Database.redisOptions);
+
+    this.mongoClient = this.createMongoClient();
+    this.storageBucket = this.createStorageBucket(this.mongoClient);
   }
 
   private static get redisOptions(): RedisOptions {
@@ -38,7 +45,7 @@ export class Database {
       password: process.env.DB_PASSWORD ?? 'DEV_PASSWD',
       authSource: 'admin',
       useNewUrlParser: true,
-      database: isDevMode ? 'DEV_DB' : (process.env.DB_NAME ?? 'PROD_DB'),
+      database: isDevMode ? 'DEV_DB' : process.env.DB_NAME ?? 'PROD_DB',
       synchronize: true,
       logging: isDevMode,
       cache: {
@@ -50,6 +57,30 @@ export class Database {
     };
   }
 
+  private createMongoClient(): MongoClient {
+    const host = process.env.DB_HOST ?? 'localhost';
+    const port = parseInt(process.env.DB_PORT ?? '27017');
+
+    const url = `mongodb://${host}:${port}`;
+
+    return new MongoClient(url, {
+      authSource: 'admin',
+      auth: {
+        username: process.env.DB_USER ?? 'DEV_USR',
+        password: process.env.DB_PASSWORD ?? 'DEV_PASSWD',
+      },
+    });
+  }
+
+  private createStorageBucket(client: MongoClient): GridFSBucket {
+    const database = isDevMode ? 'DEV_DB' : process.env.DB_NAME ?? 'PROD_DB';
+
+    return new GridFSBucket(client.db(database), {
+      bucketName: 'StorageBucket',
+      chunkSizeBytes: 8_388_608,
+    });
+  }
+
   private static get databaseEntities(): DataSourceOptions['entities'] {
     return [
       Config,
@@ -58,7 +89,9 @@ export class Database {
       Event,
       Question,
       Quiz,
-      User
+      User,
+      // ActiveQuiz
+      Media,
     ];
   }
 
@@ -108,5 +141,17 @@ export class Database {
     const database = Database.getInstance();
 
     return database.redisClient;
+  }
+
+  public static getMongoClient(): MongoClient {
+    const database = Database.getInstance();
+
+    return database.mongoClient;
+  }
+
+  public static getStorageBucket(): GridFSBucket {
+    const database = Database.getInstance();
+
+    return database.storageBucket;
   }
 }
