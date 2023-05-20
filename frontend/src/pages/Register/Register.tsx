@@ -4,10 +4,13 @@ import style from './Register.module.scss';
 import Input from '#components/Input/Input';
 import { Link } from 'react-router-dom';
 import { FormEvent, useRef, useState } from 'react';
+import MaterialSymbol from '#components/MaterialSymbol/MaterialSymbol';
 
 export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);
+  const [image, setImage] = useState<string | null>(null);
 
+  const avatarRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -26,19 +29,17 @@ export default function Register() {
       return;
     }
 
-    const credentials = {
-      username: loginRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      repeatPassword: repeatPasswordRef.current.value,
-    };
+    const form = new FormData();
 
+    form.append('avatar', avatarRef.current?.files?.[0] as Blob);
+    form.append('username', loginRef.current.value);
+    form.append('email', emailRef.current.value);
+    form.append('password', passwordRef.current.value);
+    form.append('repeatPassword', repeatPasswordRef.current.value);
+      
     const resp = await fetch('/api/v1/auth/register', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
+      body: form,
     });
 
     if (resp.ok) {
@@ -49,10 +50,31 @@ export default function Register() {
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file && file.type.substring(0, 5) === 'image') {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result as string;
+        console.log(dataURL);
+        setImage(dataURL);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImage(null);
+    }
+  };
+
   return (
     <Page>
       <div className={style.registerContainer}>
         <span className={style.registerText}>JOIN US</span>
+        {image === null ? (
+          <MaterialSymbol symbol='account_circle' class={style.profileIcon} />
+        ) : (
+          <img src={image} alt='avatar' className={style.profileAvatar} />
+        )}
         <form className={style.registerForm} action="" id="registerform" onSubmit={handleSubmit}>
           <ul className={style.errorContainer}>
             {errors.map((error, index) => (
@@ -61,6 +83,14 @@ export default function Register() {
               </li>
             ))}
           </ul>
+          <Input
+            inputRef={avatarRef}
+            type='file'
+            accept='image/*'
+            onChange={handleImageChange}
+            required
+          />
+
           <Input
             inputRef={loginRef}
             placeholder="login"

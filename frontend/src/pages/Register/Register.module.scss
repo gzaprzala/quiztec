@@ -14,6 +14,22 @@
 
 .registerText {
   font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.profileIcon {
+  font-size: 10rem !important;
+  height: fit-content !important;
+  width: fit-content !important;
+  display: block;
+}
+
+.profileAvatar {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
 
 .errorContainer {
