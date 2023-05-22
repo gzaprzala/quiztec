@@ -90,7 +90,7 @@ export class Database {
       Question,
       Quiz,
       User,
-      // ActiveQuiz
+      ActiveQuiz,
       Media,
     ];
   }

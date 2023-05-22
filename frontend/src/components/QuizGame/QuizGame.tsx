@@ -5,39 +5,42 @@ import { Answer, Question } from '#shared/types/api/quiz';
 import { useEffect } from 'react';
 
 export interface QuizGameProps {
-  question: Question;
+  question: Question<Answer>;
   time: number;
-  selectedAnswer: Answer | null | undefined;
-  setSelectedAnswer: (index: Answer | null | undefined) => void;
+  response: string | null | undefined;
+  correctResponse: string | null;
+  setResponse: (index: string | null | undefined) => void;
 }
 
-const QuizGame = ({ question, time = 10, selectedAnswer, setSelectedAnswer }: QuizGameProps) => {
+const QuizGame = ({ question, time = 10, response, setResponse, correctResponse }: QuizGameProps) => {
   const getVariant = (answer: Answer): 'default' | 'correct' | 'incorrect' => {
-    if (selectedAnswer === undefined) return 'default';
-    if (answer.correct) return 'correct';
-    if (selectedAnswer === answer) return 'incorrect';
+    console.log(response, correctResponse);
+
+    if (response === undefined) return 'default';
+    if (correctResponse === answer.id) return 'correct';
+    if (response === answer.id) return 'incorrect';
     return 'default';
   };
 
   const handleTimeout = () => {
-    setSelectedAnswer(null);
+    setResponse(null);
   };
 
   useEffect(() => {
-    console.log(selectedAnswer);
-  }, [selectedAnswer]);
+    console.log(response);
+  }, [response]);
 
   return (
     <div className={styles.quizGame}>
       <div className={styles.question}>{question.question}</div>
-      <TimeBar selectedAnswer={selectedAnswer} duration={time} onTimeout={handleTimeout} />
+      <TimeBar response={response} duration={time} onTimeout={handleTimeout} />
       <div className={styles.answers}>
         {question.answers.map((option, index) => (
           <QuizButton
             key={index}
             variant={getVariant(option)}
-            onClick={() => setSelectedAnswer(option)}
-            disabled={selectedAnswer !== null && selectedAnswer !== undefined}
+            onClick={() => setResponse(option.id)}
+            disabled={response !== null && response !== undefined}
           >
             {option.content}
           </QuizButton>

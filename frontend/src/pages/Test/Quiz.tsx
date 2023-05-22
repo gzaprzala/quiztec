@@ -2,7 +2,7 @@ import style from './Quiz.module.scss';
 import Page from '#components/Page/Page';
 import QuizGame from '#components/QuizGame/QuizGame';
 import { useEffect, useState } from 'react';
-import { Answer, GetQuestionListResponse, Question } from '#shared/types/api/quiz';
+import { Answer, Game, GetGameQuestionResponse, PostGameAnswerRequest, PostGameAnswerResponse, PostGameStartResponse, Question } from '#shared/types/api/quiz';
 import QuizDots from '#components/QuizDots/QuizDots';
 import Button from '#components/Button/Button';
 
@@ -11,65 +11,104 @@ const getQuizId = () => {
   return url.pathname.split('/').pop();
 };
 
-const fetchQuestions = async () => {
+const fetchGame = async () => {
   const id = getQuizId();
 
-  const resp = await fetch(`/api/v1/quiz/${id}/list`);
-  const data = (await resp.json()) as GetQuestionListResponse;
+  const resp = await fetch(`/api/v1/quiz/${id}/start`, {
+    method: 'POST',
+  });
+  const data = (await resp.json()) as PostGameStartResponse;
 
   return data.data;
 };
 
-const pickRandomQuestions = (questions: Question[], count = 8) => {
-  const picked: Question[] = [];
-  const indexes: number[] = [];
+const fetchQuestion = async (gameId: string) => {
+  const resp = await fetch(`/api/v1/quiz/game/${gameId}/question`, {
+    method: 'GET',
+  });
+  const data = (await resp.json()) as GetGameQuestionResponse;
 
-  while (picked.length < count) {
-    const index = Math.floor(Math.random() * questions.length);
+  return data.data;
+}
 
-    if (!indexes.includes(index)) {
-      indexes.push(index);
-      picked.push(questions[index]);
-    }
-  }
+const postAnswer = async (gameId: string, answerId: string) => {
+  const body: PostGameAnswerRequest = {
+    answerId,
+  };
 
-  return picked;
-};
+  const resp = await fetch(`/api/v1/quiz/game/${gameId}/answer`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = (await resp.json()) as PostGameAnswerResponse;
+
+  return data;
+}
 
 export default function Quiz() {
-  const rounds = 8;
-
   const [loaded, setLoaded] = useState<boolean>(false);
   const [finished, setFinished] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [roundCounter, setRoundCounter] = useState<number>(0);
+  const [game, setGame] = useState<Game>({
+    id: '',
+    rounds: [],
+    currentQuestion: 0,
+    totalQuestions: 0,
+    quizId: '',
+    userId: null
+  });
+  const [question, setQuestion] = useState<Question<Answer>>({
+    id: '',
+    quizId: '',
+    question: '',
+    image: null,
+    answers: [],
+  });
   const [answers, setAnswers] = useState<boolean[]>([]);
-  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null | undefined>(undefined);
+  const [response, setResponse] = useState<string | null | undefined>(undefined);
+  const [correctResponse, setCorrectResponse] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchQuestions().then((questions) => {
-      setQuestions(pickRandomQuestions(questions));
-      setLoaded(true);
-    });
+    fetchGame()
+      .then((game) => {
+        setGame(game);
+        console.log(game);
+      });
   }, []);
 
   useEffect(() => {
-    if (selectedAnswer === undefined) return;
+    if (game.id === '') return;
 
-    const newAnswers = [...answers];
-    newAnswers.push(selectedAnswer !== null && selectedAnswer.correct);
-    setAnswers(newAnswers);
+    console.log(game.totalQuestions, game.currentQuestion);
 
-    setTimeout(() => {
-      if (roundCounter === rounds - 1) {
-        setFinished(true);
-        return;
+    if (game.totalQuestions === game.currentQuestion) {
+      setFinished(true);
+    } else {
+      fetchQuestion(game.id)
+      .then((q) => {
+        setQuestion(q);
+        setLoaded(true);
       }
+    );
+    }
+  }, [game]);
 
-      setRoundCounter((prev) => prev + 1);
-      setSelectedAnswer(undefined);
-    }, 2000);
-  }, [selectedAnswer]);
+  useEffect(() => {
+    if (response === undefined) return;
+
+    postAnswer(game.id, response ?? '')
+      .then((g) => {
+        setCorrectResponse(g.correctResponse);
+        setAnswers([...answers, g.correct]);
+
+        setTimeout(() => {
+          setGame(g.data);
+          setResponse(undefined);
+        }, 2000);
+      });
+  }, [response]);
 
   useEffect(() => {
     console.log(answers);
@@ -80,8 +119,8 @@ export default function Quiz() {
       <div className={style.quizContainer}>
         {loaded && !finished && (
           <>
-            <QuizDots totalQuestions={rounds} answeredResults={answers} />
-            <QuizGame question={questions[roundCounter]} selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer} time={10} />
+            <QuizDots totalQuestions={game.totalQuestions} answeredResults={answers} />
+            <QuizGame question={question} response={response} setResponse={setResponse} correctResponse={correctResponse} time={10} />
           </>
         )}
         {!loaded && <div className={style.loading}>Loading...</div>}
@@ -89,7 +128,7 @@ export default function Quiz() {
           <>
             <div className={style.finished}>Quiz Finished!</div>
             <div className={style.finished}>
-              Score: {answers.filter((a) => a === true).length} / {rounds}
+              Score: {answers.filter((a) => a === true).length} / {game.totalQuestions}
             </div>
             <Button onClick={() => window.location.reload()}>Play Again</Button>
           </>

@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react';
 import styles from './TimeBar.module.scss';
-import { Answer } from '#shared/types/api/quiz';
 
 interface TimeBarProps {
-  selectedAnswer: Answer | null | undefined;
+  response: string | null | undefined;
   duration: number;
   onTimeout: () => void;
 }
 
-const TimeBar = ({ selectedAnswer, duration, onTimeout }: TimeBarProps) => {
+const TimeBar = ({ response, duration, onTimeout }: TimeBarProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,12 +20,12 @@ const TimeBar = ({ selectedAnswer, duration, onTimeout }: TimeBarProps) => {
   }, []);
 
   useEffect(() => {
-    if (selectedAnswer !== undefined) {
+    if (response !== undefined) {
       ref.current?.classList.remove(styles.animate);
     } else {
       ref.current?.classList.add(styles.animate);
     }
-  }, [selectedAnswer]);
+  }, [response]);
 
   return (
     <div className={styles.timeBar}>

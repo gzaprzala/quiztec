@@ -1,8 +1,11 @@
-import { IsBoolean, IsString, IsUrl } from "class-validator";
-import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from "typeorm";
-
+import { IsBoolean, IsString, IsUrl } from 'class-validator';
+import { Column, CreateDateColumn, Entity, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 export class Answer {
+  @Column({ type: 'string' })
+  public id: ObjectId;
+
   @Column()
   @IsString()
   public content: string;
@@ -14,6 +17,8 @@ export class Answer {
   constructor(content: string, correct: boolean) {
     this.content = content;
     this.correct = correct;
+
+    this.id = new ObjectId();
   }
 }
 
@@ -22,7 +27,7 @@ export class Question {
   @ObjectIdColumn()
   public _id: ObjectId;
 
-  @Column({ type: "string" })
+  @Column({ type: 'string' })
   public quiz: ObjectId;
 
   @Column()

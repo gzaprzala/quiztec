@@ -3,7 +3,6 @@ import { IsArray, IsDate, IsEmail, IsString, IsUrl } from 'class-validator';
 import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
 import { ObjectId as ObjectIdClass } from 'mongodb';
 
-
 export enum Role {
   USER,
   MODERATOR,
@@ -29,14 +28,17 @@ export class VisitedQuiz {
 }
 
 export class Round {
-  @ObjectIdColumn()
+  @Column()
+  public index: number;
+
+  @Column({ type: 'string' })
   public question: ObjectId;
 
-  @ObjectIdColumn()
-  public response: ObjectId;
+  @Column({ type: 'string', nullable: true })
+  public response: ObjectId | null = null;
 
-  @Column()
-  public correct: boolean;
+  @Column({ type: 'string', nullable: true })
+  public correctResponse: ObjectId;
 
   @Column()
   @IsDate()
@@ -48,15 +50,14 @@ export class Round {
 }
 
 export class PlayedQuiz {
-  @ObjectIdColumn()
-  public quiz: ObjectId;
-
-  @Column()
-  @IsDate()
-  public startedAt: Date;
+  @Column({ type: 'string' })
+  public quizId: ObjectId;
 
   @Column((type) => Round)
-  public rounds: Round[];
+  public rounds: Round[] = [];
+
+  @Column()
+  public points = 0;
 }
 
 @Entity()
@@ -104,7 +105,7 @@ export class User {
     const repository = await Database.getRepository(this);
 
     return repository.findOne({
-      where: { _id: ObjectIdClass.createFromHexString(id)  },
+      where: { _id: ObjectIdClass.createFromHexString(id) },
       cache: {
         id: `user:${id}`,
         milliseconds: 10000,
