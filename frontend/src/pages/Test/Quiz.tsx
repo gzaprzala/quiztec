@@ -120,7 +120,7 @@ export default function Quiz() {
         {loaded && !finished && (
           <>
             <QuizDots totalQuestions={game.totalQuestions} answeredResults={answers} />
-            <QuizGame question={question} response={response} setResponse={setResponse} correctResponse={correctResponse} time={10} />
+            <QuizGame question={question} response={response} setResponse={setResponse} correctResponse={correctResponse} image={question.image} time={10} />
           </>
         )}
         {!loaded && <div className={style.loading}>Loading...</div>}
