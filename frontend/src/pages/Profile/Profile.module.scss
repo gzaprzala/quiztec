@@ -45,6 +45,26 @@
   font-size: 1.5rem;
 }
 
+.errorContainer {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  margin-top: 1rem;
+  min-height: $altFontSize;
+  max-width: 32rem;
+
+  .errorText {
+    font-size: $altFontSize;
+    color: $red;
+
+    font-weight: 500;
+    line-height: $altFontSize;
+
+    animation: errorEnterAnimation 0.5s ease-in-out;
+  }
+}
+
 input[type='file']::file-selector-button {
   margin-right: 20px;
   border: none;

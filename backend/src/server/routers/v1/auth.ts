@@ -59,21 +59,31 @@ export const authRouter = (): expressRouter => {
         try {
           const user = await User.getByEmail(email);
 
-          if (user === null) return done(null, false, { message: 'Incorrect email or password.' });
+          if (user === null)
+            return done(null, false, {
+              message: 'Incorrect email or password.',
+            });
           console.log(password, user.salt, user.passwordHash);
 
           scrypt(password, user.salt, 64, (err, hashedPassword) => {
             if (err) done(err);
 
-            if (!timingSafeEqual(Buffer.from(user.passwordHash, 'hex'), hashedPassword))
-              return done(null, false, { message: 'Incorrect email or password.' });
+            if (
+              !timingSafeEqual(
+                Buffer.from(user.passwordHash, 'hex'),
+                hashedPassword
+              )
+            )
+              return done(null, false, {
+                message: 'Incorrect email or password.',
+              });
             else return done(null, user);
           });
         } catch (err) {
           done(err);
         }
-      },
-    ),
+      }
+    )
   );
 
   authRouter.post(
@@ -81,7 +91,7 @@ export const authRouter = (): expressRouter => {
     passport.authenticate('passport-local', {
       failureMessage: true,
     }),
-    (req, res) => res.sendStatus(200),
+    (req, res) => res.sendStatus(200)
   );
 
   authRouter.post('/logout', async (req, res) => {
@@ -102,7 +112,11 @@ export const authRouter = (): expressRouter => {
 
         const { username, password, email } = req.body;
 
-        if (typeof username !== 'string' || typeof password !== 'string' || typeof email !== 'string') {
+        if (
+          typeof username !== 'string' ||
+          typeof password !== 'string' ||
+          typeof email !== 'string'
+        ) {
           res.sendStatus(400);
           return;
         }
@@ -142,7 +156,11 @@ export const authRouter = (): expressRouter => {
           const extension = mime.extension(req.file.mimetype);
           const newFileName = `${uuid}.${extension}`;
 
-          const avatar = await Media.create(req.file.buffer, newFileName, createdUser._id);
+          const avatar = await Media.create(
+            req.file.buffer,
+            newFileName,
+            createdUser._id
+          );
 
           await userRepo.updateOne(
             {
@@ -152,7 +170,7 @@ export const authRouter = (): expressRouter => {
               $set: {
                 image: await avatar.getURL(),
               },
-            },
+            }
           );
 
           return res.sendStatus(200);

@@ -1,7 +1,13 @@
 import 'reflect-metadata';
 
 import { isDevMode } from '#shared/constants';
-import { DataSource, DataSourceOptions, MongoEntityManager, MongoRepository, ObjectLiteral } from 'typeorm';
+import {
+  DataSource,
+  DataSourceOptions,
+  MongoEntityManager,
+  MongoRepository,
+  ObjectLiteral,
+} from 'typeorm';
 import { Config } from '#database/entities/Config';
 import { Achievement, User } from '#database/entities/User';
 import { Redis, RedisOptions } from 'ioredis';
@@ -119,7 +125,9 @@ export class Database {
     return dataSource.mongoManager;
   }
 
-  public static async getRepository<T extends ObjectLiteral>(entity: new () => T): Promise<MongoRepository<T>> {
+  public static async getRepository<T extends ObjectLiteral>(
+    entity: new () => T
+  ): Promise<MongoRepository<T>> {
     const manager = await Database.getManager();
 
     return manager.getMongoRepository(entity);
