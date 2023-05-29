@@ -27,7 +27,7 @@ quizRouter.get('/list', async (req, res) => {
         developer: quiz.developer,
         tags: quiz.tags,
         rating: 0,
-        players: 0,
+        players: quiz.visitedPlayers.length,
         achievements: 0,
         totalAchievements: quiz.achievements.length,
         author: quiz.author,

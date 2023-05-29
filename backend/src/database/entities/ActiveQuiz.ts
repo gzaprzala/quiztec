@@ -1,8 +1,9 @@
-import { PlayedQuiz, Round, User } from '#database/entities/User';
+import { PlayedQuiz, Round, User, VisitedQuiz } from '#database/entities/User';
 import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
 import { ObjectId as ObjectIdClass } from 'mongodb';
 import { Database } from '#database/Database';
 import { Question } from '#database/entities/Question';
+import { Quiz, VisitedPlayer } from '#database/entities/Quiz';
 
 @Entity()
 export class ActiveQuiz {
@@ -153,6 +154,7 @@ export class ActiveQuiz {
 
     if (quiz.userId !== null) {
       const userRepo = await Database.getRepository(User);
+      const quizRepo = await Database.getRepository(Quiz);
       const user = await User.getById(quiz.userId.toHexString());
 
       if (user === null) return;
@@ -174,6 +176,50 @@ export class ActiveQuiz {
           } as any, // dirty code
         },
       );
+
+      const visitedQuiz: VisitedQuiz = {
+        quizId: quiz.quizId,
+        date: new Date(),
+      }
+
+      await userRepo.updateOne(
+        {
+          _id: user._id,
+          visitedQuizzes: {
+            $not: {
+              $elemMatch: {
+                quizId: visitedQuiz.quizId,
+              },
+            },
+          },
+        },
+        {
+          $push: {
+            visitedQuizzes: visitedQuiz,
+          } as any, // dirty code
+        });
+      
+      const visitedPlayer: VisitedPlayer = {
+        userId: user._id,
+        date: new Date(),
+      }
+      
+        await quizRepo.updateOne(
+          {
+            _id: quiz.quizId,
+            visitedPlayers: {
+              $not: {
+                $elemMatch: {
+                  userId: user._id,
+                },
+              },
+            },
+          },
+          {
+            $push: {
+              visitedPlayers: visitedPlayer,
+            } as any, // dirty code
+          });
     }
 
     await repository.deleteOne({ _id: quiz._id });

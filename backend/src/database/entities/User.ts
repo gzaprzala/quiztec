@@ -10,7 +10,7 @@ export enum Role {
 }
 
 export class Achievement {
-  @ObjectIdColumn()
+  @Column({ type: 'string' })
   public id: ObjectId;
 
   @Column()
@@ -19,8 +19,8 @@ export class Achievement {
 }
 
 export class VisitedQuiz {
-  @ObjectIdColumn()
-  public quiz: ObjectId;
+  @Column({ type: 'string' })
+  public quizId: ObjectId;
 
   @Column()
   @IsDate()
