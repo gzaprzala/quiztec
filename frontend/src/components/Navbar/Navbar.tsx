@@ -55,6 +55,8 @@ const Navbar = () => {
           <Link to="/categories">Categories</Link>
 
           <Link to="/leaderboard">Leaderboard</Link>
+
+          {session.loggedIn && <Link to="/statistics">Statistics</Link>}
           {session.loggedIn && <Link to="/newquiz">Create new quiz</Link>}
           {session.loggedIn && <span onClick={logout}>Logout</span>}
         </div>

@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "./LeadComp.module.scss";
 
-import sample_data from "./sample_data.json";
-
 interface Player {
   id: number;
   profilePicture: string;
   nickname: string;
-  value: number;
+  filterValue: number;
 }
 
 interface LeadCompProps {
@@ -15,72 +13,74 @@ interface LeadCompProps {
   category: string;
 }
 
-const games = ["csgo", "valorant", "fortnite", "league_of_legends"];
-const categories = [
-  "total_correct_answers",
-  "total_games",
-  "perfect_games",
-  "perfect_games_streak",
-  "unlocked_achievements",
-  "perfect_daily_challenges",
-  "perfect_daily_challenges_streak",
-];
-
-type GameCategoryDataMapping = {
-  [game in (typeof games)[number]]: {
-    [category in (typeof categories)[number]]: Player[];
-  };
-};
-
-const gameCategoryDataMapping = games.reduce<GameCategoryDataMapping>(
-  (gameAcc, game) => {
-    gameAcc[game] = categories.reduce((categoryAcc, category) => {
-      categoryAcc[category] = sample_data;
-      return categoryAcc;
-    }, {} as { [category in (typeof categories)[number]]: Player[] });
-    return gameAcc;
-  },
-  {} as GameCategoryDataMapping
-);
-
 const LeadComp = ({ game, category }: LeadCompProps) => {
   const [leaderboardData, setLeaderboardData] = useState<Player[]>([]);
 
   useEffect(() => {
-    const selectedData: Player[] =
-      gameCategoryDataMapping[game]?.[category] ?? [];
-    setLeaderboardData(selectedData);
+    const API_URL = `http://localhost:3000/api/v1/leaderboard/${game}/${category}`;
+
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => setLeaderboardData(data))
+      .catch((error) => console.error("Failed to fetch data: ", error));
   }, [game, category]);
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th className={styles.indx}>#</th>
-          <th className={styles.profPic}>Profile</th>
-          <th className={styles.nickname}>Nickname</th>
-          <th className={styles.value}>Value</th>
-        </tr>
-      </thead>
-      <tbody>
+    // <table className={styles.table}>
+    //   <colgroup>
+    //     <col />
+    //     <col />
+    //     <col />
+    //     <col />
+    //   </colgroup>
+
+    //   <thead>
+    //     <tr>
+    //       <th className={styles.indx}>#</th>
+    //       <th className={styles.profPic}>Profile</th>
+    //       <th className={styles.nickname}>Nickname</th>
+    //       <th className={styles.value}>Value</th>
+    //     </tr>
+    //   </thead>
+    //   <tbody>
+    //     {leaderboardData.map((player, index) => (
+    //       <tr key={player.id}>
+    //         <td className={styles.indx}>{index + 1}</td>
+    //         <td className={styles.profPic}>
+    //           <img
+    //             src={player.profilePicture}
+    //             alt={player.nickname}
+    //             className={styles.img}
+    //           />
+    //         </td>
+    //         <td className={styles.nickname}>{player.nickname}</td>
+    //         <td className={styles.value}>{player.filterValue}</td>
+    //       </tr>
+    //     ))}
+    //   </tbody>
+    // </table>
+    <div className={styles.container}>
+      {/* <div className={styles.head}>
+        <div className={styles.row}>
+          <div className={styles.indx}></div>
+          <div className={styles.profPic}></div>
+          <div className={styles.nickname}></div>
+          <div className={styles.value}></div>
+        </div>
+      </div> */}
+      <div className={styles.body}>
         {leaderboardData.map((player, index) => (
-          <tr key={player.id}>
-            <td className={styles.indx}>{index + 1}</td>
-            <td className={styles.profPic}>
-              <img
-                src={player.profilePicture}
-                alt={player.nickname}
-                width="50"
-                height="50"
-                className={styles.img}
-              />
-            </td>
-            <td className={styles.nickname}>{player.nickname}</td>
-            <td className={styles.value}>{player.value}</td>
-          </tr>
+          <div className={styles.row} key={player.id}>
+            <div className={styles.indx}>{index + 1}</div>
+            <div className={styles.profPic}>
+              <img src={player.profilePicture} />
+            </div>
+            <div className={styles.nickname}>{player.nickname}</div>
+            <div className={styles.filterValue}>{player.filterValue}</div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   );
 };
 

@@ -1,0 +1,20 @@
+@use "../../app" as *;
+
+.statisticsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 3rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  background-color: $widgetColor;
+}

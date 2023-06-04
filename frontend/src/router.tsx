@@ -7,6 +7,7 @@ import Profile from "#pages/Profile/Profile";
 import Quiz from "#pages/Test/Quiz";
 import NewQuiz from "#pages/NewQuiz/NewQuiz";
 import Leaderboard from "#pages/Leaderboard/Leaderboard";
+import Stats from "#pages/Stats/Stats";
 
 export const router = createBrowserRouter([
   {
@@ -40,5 +41,9 @@ export const router = createBrowserRouter([
   {
     path: "/leaderboard",
     element: <Leaderboard />,
+  },
+  {
+    path: "/statistics",
+    element: <Stats />,
   },
 ]);

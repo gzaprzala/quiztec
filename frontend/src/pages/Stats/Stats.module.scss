@@ -1,6 +1,6 @@
 @use "../../app" as *;
 
-.leaderboardContainer {
+.statsContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 80%;
-  margin-right: 5rem;
+  margin-right: 7rem;
 }
 
 .button {
@@ -34,29 +34,9 @@
   }
 }
 
-.wrap {
+.stats {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4rem;
-  width: 50%;
-  height: 80%;
-}
-
-select {
-  width: 28rem;
-  height: 4rem;
-  background: $borderColor;
-  color: $textColor;
-  border-radius: 0.8rem;
-  border: 1px solid $gray;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  text-align: center;
+  width: 30%;
 }
 
 .csgo {
@@ -85,7 +65,7 @@ select {
 }
 
 @media screen and (max-width: 1200px) {
-  .leaderboardContainer {
+  .statsContainer {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -109,8 +89,9 @@ select {
     font-size: 1.8rem;
   }
 
-  .wrap {
-    margin-top: 3rem;
-    width: 90%;
+  .stats {
+    width: 80%;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }

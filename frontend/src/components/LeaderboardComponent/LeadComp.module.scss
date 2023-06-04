@@ -1,38 +1,83 @@
 @use "../../app" as *;
 
-.table {
+img {
+  border-radius: 40%;
+  width: 4rem;
+  height: 4rem;
+  justify-self: center;
+  align-self: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  border-collapse: collapse;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 5rem;
+  width: 100%;
+}
+
+.row:nth-child(odd) {
+  background-color: $widgetColor;
   border-radius: 1rem;
-  overflow: hidden;
 }
 
-th,
-td {
-  text-align: center;
-}
-
-tr:nth-child(even) {
-  background-color: rgba($purpleBright, 0.2);
-}
-
-thead,
-th {
-  font-weight: 400;
-  background-color: rgba($purpleBright, 0.4);
-}
-
-// img {
-//   border-radius: 50%;
-// }
-
-.indx {
-  width: 6%;
-}
+.indx,
 .profPic {
+  display: flex;
   width: 10%;
+  justify-content: center;
 }
 
-.value {
-  width: 10%;
+.nickname {
+  display: flex;
+  width: 60%;
+  padding-left: 4rem;
+}
+
+.filterValue {
+  display: flex;
+  width: 20%;
+  padding-right: 2rem;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 768px) {
+  .row {
+    height: 4rem;
+  }
+
+  .indx,
+  .profPic {
+    width: 20%;
+  }
+
+  .nickname {
+    width: 60%;
+    padding-left: 1rem;
+  }
+
+  .filterValue {
+    width: 20%;
+    padding-right: 1rem;
+  }
+
+  img {
+    width: 3rem;
+    height: 3rem;
+  }
 }

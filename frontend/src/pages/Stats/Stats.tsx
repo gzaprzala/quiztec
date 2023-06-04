@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import style from "./Leaderboard.module.scss";
+import { useState, useEffect, useCallback } from "react";
+import style from "./Stats.module.scss";
 import Page from "#components/Page/Page";
-import LeadComp from "#components/LeaderboardComponent/LeadComp";
+import Statistics from "#components/Statistics/Statistics";
 import { GetQuizListResponse } from "#types/api/quiz";
 import { CategoryProps } from "#components/Category/Category";
 
@@ -13,13 +13,10 @@ const GAMES = [
   "League of Legends",
 ];
 
-export default function Leaderboard() {
+export default function Stats() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedGame, setSelectedGame] = useState(GAMES[0]);
-  const [selectedCategory, setSelectedCategory] = useState(
-    "total_correct_answers"
-  );
+  const [selectedGame, setSelectedGame] = useState("");
 
   useEffect(() => {
     fetch(API_URL)
@@ -47,16 +44,10 @@ export default function Leaderboard() {
     setSelectedGame(getGameId(game));
   };
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectedCategory(event.target.value);
-  };
-
   return (
     <Page>
       {!loading && (
-        <div className={style.leaderboardContainer}>
+        <div className={style.statsContainer}>
           <div className={style.pickGame}>
             <button
               className={style.button + " " + style.csgo}
@@ -68,7 +59,7 @@ export default function Leaderboard() {
               className={style.button + " " + style.valorant}
               onClick={() => handleGameButtonClick(GAMES[1])}
             >
-              Valorant
+              <span>Valorant</span>
             </button>
             <button
               className={style.button + " " + style.fortnite}
@@ -83,23 +74,8 @@ export default function Leaderboard() {
               League of Legends
             </button>
           </div>
-          <div className={style.wrap}>
-            <div className={style.dropMenu}>
-              <select value={selectedCategory} onChange={handleCategoryChange}>
-                <option value="total_correct_answers">
-                  Number of correct answers
-                </option>
-                <option value="total_games">Number of games</option>
-                <option value="perfect_games">Perfect games</option>
-                <option value="perfect_games_streak">
-                  Streak of perfect games
-                </option>
-                <option value="unlocked_achievements">
-                  Unlocked achievements
-                </option>
-              </select>
-            </div>
-            <LeadComp game={selectedGame} category={selectedCategory} />
+          <div className={style.stats}>
+            <Statistics game={selectedGame} />
           </div>
         </div>
       )}
