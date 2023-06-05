@@ -59,25 +59,49 @@ export default function Leaderboard() {
         <div className={style.leaderboardContainer}>
           <div className={style.pickGame}>
             <button
-              className={style.button + " " + style.csgo}
+              className={
+                style.button +
+                " " +
+                style.csgo +
+                " " +
+                (selectedGame === getGameId(GAMES[0]) ? " " + style.active : "")
+              }
               onClick={() => handleGameButtonClick(GAMES[0])}
             >
               Counter-Strike: Global Offensive
             </button>
             <button
-              className={style.button + " " + style.valorant}
+              className={
+                style.button +
+                " " +
+                style.valorant +
+                " " +
+                (selectedGame === getGameId(GAMES[1]) ? " " + style.active : "")
+              }
               onClick={() => handleGameButtonClick(GAMES[1])}
             >
               Valorant
             </button>
             <button
-              className={style.button + " " + style.fortnite}
+              className={
+                style.button +
+                " " +
+                style.fortnite +
+                " " +
+                (selectedGame === getGameId(GAMES[2]) ? " " + style.active : "")
+              }
               onClick={() => handleGameButtonClick(GAMES[2])}
             >
               Fortnite
             </button>
             <button
-              className={style.button + " " + style.league}
+              className={
+                style.button +
+                " " +
+                style.league +
+                " " +
+                (selectedGame === getGameId(GAMES[3]) ? " " + style.active : "")
+              }
               onClick={() => handleGameButtonClick(GAMES[3])}
             >
               League of Legends

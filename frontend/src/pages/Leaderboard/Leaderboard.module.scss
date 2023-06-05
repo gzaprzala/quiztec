@@ -84,6 +84,10 @@ select {
   background-size: cover;
 }
 
+.active {
+  border: 1px solid $grayBright;
+}
+
 @media screen and (max-width: 1200px) {
   .leaderboardContainer {
     flex-direction: column;
