@@ -221,19 +221,18 @@ quizRouter.post('/new', async (req, res) => {
     fileUpload(req, res, async (err) => {
       const { question, active, answers, quiz } = req.body;
 
-      if (
-        typeof question !== 'string' ||
-        typeof active !== 'string' ||
-        typeof quiz !== 'string' ||
-        !Array.isArray(answers)
-      ) {
+      if (typeof question !== 'string' || !Array.isArray(answers)) {
         return res.sendStatus(400);
       }
 
-      const formattedAnswers = answers.map((answer) => ({
-        content: answer,
-        correct: false,
-      }));
+      const formattedAnswers = answers.map((answer) => {
+        const answerObjectId = new ObjectId();
+        return {
+          id: answerObjectId,
+          content: answer,
+          correct: false,
+        };
+      });
 
       const questionRepo = await Database.getRepository(Question);
 
@@ -254,14 +253,21 @@ quizRouter.post('/new', async (req, res) => {
         req.user._id
       );
 
+      const isActive = active === 'true';
+      const quizObjectId = new ObjectId(quiz);
+
       await questionRepo.insertOne({
         question: question,
-        active: active,
+        active: isActive,
         answers: [
           ...formattedAnswers,
-          { content: req.body.correctAnswer, correct: true },
+          {
+            id: new ObjectId(),
+            content: req.body.correctAnswer,
+            correct: true,
+          },
         ],
-        quiz: quiz,
+        quiz: quizObjectId,
         createdAt: now,
         updatedAt: now,
         image: await avatar.getURL(),

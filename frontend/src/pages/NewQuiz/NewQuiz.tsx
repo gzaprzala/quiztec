@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Page from '#components/Page/Page';
 import style from './NewQuiz.module.scss';
 import Input from '#components/Input/Input';
@@ -19,6 +19,7 @@ const NewQuiz = () => {
     useRef<HTMLInputElement>(null),
   ];
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [quizCreated, setQuizCreated] = useState(false); // New state for quiz creation status
 
   useEffect(() => {
     setLoading(true);
@@ -74,6 +75,21 @@ const NewQuiz = () => {
 
       if (response.ok) {
         console.log('Quiz created!');
+        setQuizCreated(true);
+
+        questionRef.current.value = '';
+        correctRef.current.value = '';
+        incorrectRefs.forEach((ref) => {
+          if (ref.current) {
+            ref.current.value = '';
+          }
+        });
+
+        setSelectedCategory('');
+        setImage(null);
+        if (avatarRef.current) {
+          avatarRef.current.value = '';
+        }
       } else {
         console.error('Failed to create quiz');
       }
@@ -155,12 +171,12 @@ const NewQuiz = () => {
             CREATE
           </Button>
         </form>
+        {quizCreated && (
+          <div className={style.successMessage}>Quiz created successfully!</div>
+        )}
       </div>
     </Page>
   );
 };
 
 export default NewQuiz;
-function setLoading(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
