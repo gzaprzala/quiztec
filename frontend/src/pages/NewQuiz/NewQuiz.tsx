@@ -1,17 +1,14 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Page from '#components/Page/Page';
 import style from './NewQuiz.module.scss';
 import Input from '#components/Input/Input';
 import Button from '#components/Button/Button';
-
-const categoryOptions = [
-  { label: 'CSGO', value: '6461462d32ebca7340170b39' },
-  { label: 'LOL', value: '6461462d32ebca7340170b3b' },
-  { label: 'Valorant', value: '6461462d32ebca7340170b3a' },
-  { label: 'Fortnite', value: '6461462d32ebca7340170b3c' },
-];
+import { GetQuizListResponse } from '#shared/types/api/quiz';
+import Category, { CategoryProps } from '#components/Category/Category';
 
 const NewQuiz = () => {
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [image, setImage] = useState<string | null>(null);
   const questionRef = useRef<HTMLInputElement>(null);
   const correctRef = useRef<HTMLInputElement>(null);
@@ -22,6 +19,21 @@ const NewQuiz = () => {
     useRef<HTMLInputElement>(null),
   ];
   const [selectedCategory, setSelectedCategory] = useState('');
+
+  useEffect(() => {
+    setLoading(true);
+    fetch('http://localhost:3000/api/v1/quiz/list')
+      .then((resp) => resp.json() as Promise<GetQuizListResponse>)
+      .then((data) => {
+        setCategories(data.data);
+        setLoading(false);
+      });
+  }, []);
+
+  const categoryOptions = categories.map((category) => ({
+    label: category.title,
+    value: category.id,
+  }));
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,8 +65,6 @@ const NewQuiz = () => {
     formData.append('quiz', category.value);
     formData.append('avatar', avatarRef.current?.files?.[0] as Blob);
     incorrectAnswers.forEach((answer) => formData.append('answers', answer));
-
-    console.log(formData);
 
     try {
       const response = await fetch('/api/v1/quiz/new', {
@@ -151,3 +161,6 @@ const NewQuiz = () => {
 };
 
 export default NewQuiz;
+function setLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}

@@ -20,7 +20,12 @@ export default function Register() {
     ev.preventDefault();
     setErrors([]);
 
-    if (loginRef.current === null || emailRef.current === null || passwordRef.current === null || repeatPasswordRef.current === null) {
+    if (
+      loginRef.current === null ||
+      emailRef.current === null ||
+      passwordRef.current === null ||
+      repeatPasswordRef.current === null
+    ) {
       return;
     }
 
@@ -36,7 +41,7 @@ export default function Register() {
     form.append('email', emailRef.current.value);
     form.append('password', passwordRef.current.value);
     form.append('repeatPassword', repeatPasswordRef.current.value);
-      
+
     const resp = await fetch('/api/v1/auth/register', {
       method: 'POST',
       body: form,
@@ -75,7 +80,11 @@ export default function Register() {
         ) : (
           <img src={image} alt='avatar' className={style.profileAvatar} />
         )}
-        <form className={style.registerForm} action="" id="registerform" onSubmit={handleSubmit}>
+        <form
+          className={style.registerForm}
+          action=''
+          id='registerform'
+          onSubmit={handleSubmit}>
           <ul className={style.errorContainer}>
             {errors.map((error, index) => (
               <li key={index} className={style.errorText}>
@@ -93,39 +102,47 @@ export default function Register() {
 
           <Input
             inputRef={loginRef}
-            placeholder="login"
-            type="text"
+            placeholder='login'
+            type='text'
             required
-            pattern="[A-Za-z0-9.\-_]+"
+            pattern='[A-Za-z0-9.\-_]+'
             minLength={8}
             maxLength={32}
-            title="Allowed characters: A-Z a-z 0-9 . - _"
+            title='Allowed characters: A-Z a-z 0-9 . - _'
           />
-          <Input inputRef={emailRef} placeholder="email" type="email" required />
+          <Input
+            inputRef={emailRef}
+            placeholder='email'
+            type='email'
+            required
+          />
           <Input
             inputRef={passwordRef}
-            placeholder="password"
-            type="password"
+            placeholder='password'
+            type='password'
             required
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+"
+            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+'
             minLength={8}
             maxLength={64}
-            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+            title='Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'
           />
           <Input
             inputRef={repeatPasswordRef}
-            placeholder="repeat password"
-            type="password"
+            placeholder='repeat password'
+            type='password'
             required
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+"
+            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+'
             minLength={8}
             maxLength={64}
-            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+            title='Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'
           />
-          <Button form="registerform" type="submit" className={style.registerButton}>
+          <Button
+            form='registerform'
+            type='submit'
+            className={style.registerButton}>
             SIGN UP
           </Button>
-          <Link to="/login">
+          <Link to='/login'>
             <span className={style.registerLink}>Sign in</span>
           </Link>
         </form>

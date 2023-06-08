@@ -16,6 +16,14 @@
   font-size: 4rem;
 }
 
+.newquizCategory {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
 .newquizForm {
   display: flex;
   flex-direction: column;
