@@ -12,6 +12,10 @@ import { Question } from '#database/entities/Question';
 import { ObjectId } from 'mongodb';
 import { BSONError } from 'bson';
 import { ActiveQuiz } from '#database/entities/ActiveQuiz';
+import multer from 'multer';
+import { randomUUID } from 'crypto';
+import mime from 'mime';
+import { Media } from '#database/entities/Media';
 
 export const quizRouter = expressRouter();
 
@@ -113,7 +117,8 @@ quizRouter.get('/game/:id/question', async (req, res) => {
     const quiz = await ActiveQuiz.getById(req.params.id);
     if (quiz === null) return res.sendStatus(404);
 
-    if (quiz.userId?.toHexString() !== req.user?._id.toHexString()) return res.sendStatus(403);
+    if (quiz.userId?.toHexString() !== req.user?._id.toHexString())
+      return res.sendStatus(403);
 
     const question = await ActiveQuiz.getActiveQuestion(req.params.id);
     if (question === null) return res.sendStatus(404);
@@ -141,13 +146,18 @@ quizRouter.get('/game/:id/question', async (req, res) => {
 quizRouter.post('/game/:id/answer', async (req, res) => {
   try {
     let answerId: string = '000000000000000000000000';
-    if (typeof req.body.answerId === 'string' && req.body.answerId.length === 24) answerId = req.body.answerId;
+    if (
+      typeof req.body.answerId === 'string' &&
+      req.body.answerId.length === 24
+    )
+      answerId = req.body.answerId;
 
     console.log(answerId);
     const quiz = await ActiveQuiz.getById(req.params.id);
     if (quiz === null) return res.sendStatus(404);
 
-    if (quiz.userId?.toHexString() !== req.user?._id.toHexString()) return res.sendStatus(403);
+    if (quiz.userId?.toHexString() !== req.user?._id.toHexString())
+      return res.sendStatus(403);
 
     const question = await ActiveQuiz.getActiveQuestion(req.params.id);
     if (question === null) return res.sendStatus(404);
@@ -178,6 +188,87 @@ quizRouter.post('/game/:id/answer', async (req, res) => {
     };
 
     res.json(resp);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 1024 * 1024 * 8,
+  },
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/gif' ||
+      file.mimetype === 'image/webp' ||
+      file.mimetype === 'image/svg+xml'
+    ) {
+      cb(null, true);
+    }
+
+    cb(null, false);
+  },
+});
+const fileUpload = upload.single('avatar');
+
+quizRouter.post('/new', async (req, res) => {
+  try {
+    fileUpload(req, res, async (err) => {
+      const { question, active, answers, quiz } = req.body;
+
+      if (
+        typeof question !== 'string' ||
+        typeof active !== 'string' ||
+        typeof quiz !== 'string' ||
+        !Array.isArray(answers)
+      ) {
+        return res.sendStatus(400);
+      }
+
+      const formattedAnswers = answers.map((answer) => ({
+        content: answer,
+        correct: false,
+      }));
+
+      const questionRepo = await Database.getRepository(Question);
+
+      const now = new Date().toISOString();
+
+      if (req.isUnauthenticated()) return res.sendStatus(401);
+      if (req.user === undefined) return res.sendStatus(401);
+
+      if (req.file === undefined) return res.sendStatus(400);
+
+      const uuid = randomUUID().slice(0, 8);
+      const extension = mime.extension(req.file.mimetype);
+      const newFileName = `${uuid}.${extension}`;
+
+      const avatar = await Media.create(
+        req.file.buffer,
+        newFileName,
+        req.user._id
+      );
+
+      await questionRepo.insertOne({
+        question: question,
+        active: active,
+        answers: [
+          ...formattedAnswers,
+          { content: req.body.correctAnswer, correct: true },
+        ],
+        quiz: quiz,
+        createdAt: now,
+        updatedAt: now,
+        image: await avatar.getURL(),
+      });
+
+      res.sendStatus(200);
+    });
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
