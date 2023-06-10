@@ -1,10 +1,10 @@
-import { Router as expressRouter } from "express";
-import { StatisticsData } from "#shared/types/api/stats";
-import { User } from "#database/entities/User";
+import { Router as expressRouter } from 'express';
+import { StatisticsData } from '#shared/types/api/stats';
+import { User } from '#database/entities/User';
 
 export const statsRouter = expressRouter();
 
-statsRouter.get("/:game", async (req, res) => {
+statsRouter.get('/:game', async (req, res) => {
   try {
     const game = req.params.game;
 
@@ -22,9 +22,7 @@ statsRouter.get("/:game", async (req, res) => {
 
     const playedQuizzes = user.playedQuizzes;
 
-    const gameQuizzes = playedQuizzes.filter(
-      (quiz) => quiz.quizId.toHexString() === game
-    );
+    const gameQuizzes = playedQuizzes.filter((quiz) => quiz.quizId.toHexString() === game);
 
     const total_games = gameQuizzes.length;
 
@@ -50,7 +48,7 @@ statsRouter.get("/:game", async (req, res) => {
       total_games: total_games,
       perfect_games: perfect_games,
       perfect_games_streak: perfect_games_streak,
-      unlocked_achievements: 0,
+      unlocked_achievements: user.achievements.filter((achievement) => achievement.gameId?.toHexString() === game).length,
     };
 
     res.json(statisticsData);

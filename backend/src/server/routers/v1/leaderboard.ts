@@ -45,6 +45,13 @@ leaderboardRouter.get("/:game/:filter", async (req, res) => {
           }
           filterValue = maxStreak;
           break;
+        
+        case "unlocked_achievements":
+          filterValue = user.achievements.filter(
+            (achievement) => achievement.gameId?.toHexString() === game
+          ).length;
+
+          break;
       }
 
       return {

@@ -1,6 +1,5 @@
-import { IsDate, IsNumber, IsString, IsUrl } from "class-validator";
-import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from "typeorm";
-
+import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
+import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
 
 export class Rating {
   @ObjectIdColumn()
@@ -33,10 +32,6 @@ export class Quiz {
   @IsString()
   public developer: string;
 
-  // @Column()
-  // @IsString()
-  // public description: string;
-
   @Column()
   @IsUrl()
   public backgroundImage: string;
@@ -51,9 +46,6 @@ export class Quiz {
 
   @Column((type) => Rating, { array: true })
   public ratings: Rating[] = [];
-
-  @Column()
-  public achievements: ObjectId[] = [];
 
   @Column((type) => VisitedPlayer, { array: true })
   public visitedPlayers: VisitedPlayer[] = [];

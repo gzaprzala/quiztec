@@ -1,0 +1,44 @@
+@use 'app';
+
+@mixin symbolFont($fill: 0, $important: false) {
+  @if $important {
+    font-variation-settings: 'FILL'$fill !important;
+  }
+
+  @else {
+    font-variation-settings: 'FILL'$fill;
+  }
+}
+
+@mixin symbolSize($size: app.$defaultIconSize) {
+  font-size: $size;
+  width: $size;
+  height: $size;
+}
+
+
+@mixin highlight($highlight) {
+
+  &:hover,
+  &:active,
+  &:not(:not(.active)) {
+    color: $highlight;
+  }
+}
+
+@mixin interactive($highlight: false) {
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    translate: 0 -0.2rem;
+  }
+
+  &:active {
+    @include symbolFont(1);
+  }
+
+  @if $highlight {
+    @include highlight($highlight);
+  }
+}

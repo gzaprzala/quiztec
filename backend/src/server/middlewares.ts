@@ -1,6 +1,8 @@
+import { Database } from '#database/Database';
 import chalk from 'chalk';
+import RedisStore from 'connect-redis';
 import { RequestHandler } from 'express';
-
+import session from 'express-session';
 
 export const logger: RequestHandler = (req, res, next) => {
   console.log(
@@ -26,3 +28,22 @@ export const accessControl: RequestHandler = (req, res, next) => {
 
   next();
 };
+
+export const generateSessionMiddleware = async (): Promise<RequestHandler> =>
+  session({
+    // secret: randomBytes(32).toString('hex'),
+    secret: 'SUPER_SECRET_SECRET',
+    resave: false,
+    saveUninitialized: false,
+    name: 'quiztec-auth',
+    rolling: true,
+    cookie: {
+      signed: true,
+      httpOnly: true,
+      maxAge: 30 * 60 * 1000,
+    },
+    store: new RedisStore({
+      client: await Database.getRedisClient(),
+      prefix: 'session_store:',
+    }),
+  });

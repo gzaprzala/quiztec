@@ -1,5 +1,9 @@
 import { ReactNode, createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { FrontendUser, GetFrontendUser } from '#types/api/auth';
+import { Show } from '#components/Show';
+
+import style from './SessionProvider.module.scss';
+import DotSpinner from '#components/DotSpinner/DotSpinner';
 
 export type SessionContextState = {
   loggedIn: boolean;
@@ -35,7 +39,7 @@ const sessionReducer = (oldState: SessionContextState, newState: Partial<Session
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useReducer(sessionReducer, defaultState);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const fetchUser = async (): Promise<FrontendUser | null> => {
     const response = await fetch('/api/v1/auth/user', {
@@ -68,12 +72,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    fetchUser();
+    fetchUser().then(() => setLoaded(true));
   }, []);
 
   useEffect(() => {
     console.log('User logged in:', state.loggedIn);
-    setLoading(false);
   }, [state.loggedIn]);
 
   return (
@@ -87,7 +90,17 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         },
       ]}
     >
-      {!loading && children}
+      <Show
+        when={loaded}
+        fallback={
+          <div className={style.container}>
+            <DotSpinner />
+            <span className={style.description}>Getting things ready</span>
+          </div>
+        }
+      >
+        {children}
+      </Show>
     </SessionContext.Provider>
   );
 }

@@ -4,6 +4,7 @@ import { ObjectId as ObjectIdClass } from 'mongodb';
 import { Database } from '#database/Database';
 import { Question } from '#database/entities/Question';
 import { Quiz, VisitedPlayer } from '#database/entities/Quiz';
+import { Achievement } from '#database/entities/Achievement';
 
 @Entity()
 export class ActiveQuiz {
@@ -180,7 +181,7 @@ export class ActiveQuiz {
       const visitedQuiz: VisitedQuiz = {
         quizId: quiz.quizId,
         date: new Date(),
-      }
+      };
 
       await userRepo.updateOne(
         {
@@ -197,29 +198,62 @@ export class ActiveQuiz {
           $push: {
             visitedQuizzes: visitedQuiz,
           } as any, // dirty code
-        });
-      
+        },
+      );
+
       const visitedPlayer: VisitedPlayer = {
         userId: user._id,
         date: new Date(),
-      }
-      
-        await quizRepo.updateOne(
-          {
-            _id: quiz.quizId,
-            visitedPlayers: {
-              $not: {
-                $elemMatch: {
-                  userId: user._id,
-                },
+      };
+
+      const updatedVisits = await quizRepo.updateOne(
+        {
+          _id: quiz.quizId,
+          visitedPlayers: {
+            $not: {
+              $elemMatch: {
+                userId: user._id,
               },
             },
           },
-          {
-            $push: {
-              visitedPlayers: visitedPlayer,
-            } as any, // dirty code
-          });
+        },
+        {
+          $push: {
+            visitedPlayers: visitedPlayer,
+          } as any, // dirty code
+        },
+      );
+
+      if (updatedVisits.modifiedCount !== 0) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_FIRST_QUIZ', quiz.quizId);
+      }
+
+      if (playedQuiz.points === quiz.totalQuestions) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_PERFECT_GAME', quiz.quizId);
+      }
+
+      if (quiz.updatedAt.getTime() - quiz.createdAt.getTime() < 90 * 1000) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_UNDER_90', quiz.quizId);
+      }
+
+      if (quiz.updatedAt.getTime() - quiz.createdAt.getTime() < 60 * 1000) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_UNDER_60', quiz.quizId);
+      }
+
+      if (quiz.updatedAt.getTime() - quiz.createdAt.getTime() < 30 * 1000) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_UNDER_30', quiz.quizId);
+      }
+
+      await Database.invalidateCache([`user:${user._id.toHexString()}`]);
+      const updatedUser = await User.getById(user._id.toHexString());
+
+      if (updatedUser === null) return;
+
+      const playedQuizzes = updatedUser.playedQuizzes.filter((pq) => pq.quizId.toHexString() === quiz.quizId.toHexString());
+
+      if (playedQuizzes.length >= 5) {
+        Achievement.optimisticUnlock(user._id, 'GAME_AGN_10_GAMES', quiz.quizId);
+      }
     }
 
     await repository.deleteOne({ _id: quiz._id });

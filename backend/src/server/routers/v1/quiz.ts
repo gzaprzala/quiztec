@@ -16,28 +16,40 @@ import multer from 'multer';
 import { randomUUID } from 'crypto';
 import mime from 'mime';
 import { Media } from '#database/entities/Media';
+import { Achievement } from '#database/entities/Achievement';
+import { User } from '#database/entities/User';
 
 export const quizRouter = expressRouter();
+
+const getUnlockedAchievements = (user: User | undefined, gameId: string): number => {
+  if (user === undefined) return 0;
+  return user.achievements.filter((achievement) => achievement.gameId?.toHexString() === gameId).length;
+};
 
 quizRouter.get('/list', async (req, res) => {
   try {
     const quizRepo = await Database.getRepository(Quiz);
     const quizzes = await quizRepo.find();
-
     const resp: GetQuizListResponse = {
-      data: quizzes.map((quiz) => ({
+      data: [],
+    };
+
+    for (const quiz of quizzes) {
+      const achievements = await Achievement.getByGameId(quiz._id);
+
+      resp.data.push({
         id: quiz._id.toHexString(),
         title: quiz.title,
         developer: quiz.developer,
         tags: quiz.tags,
         rating: 0,
         players: quiz.visitedPlayers.length,
-        achievements: 0,
-        totalAchievements: quiz.achievements.length,
+        achievements: getUnlockedAchievements(req.user, quiz._id.toHexString()),
+        totalAchievements: achievements.length,
         author: quiz.author,
         backgroundImageUrl: quiz.backgroundImage,
-      })),
-    };
+      });
+    }
 
     res.json(resp);
   } catch (err) {

@@ -9,7 +9,7 @@ import {
   ObjectLiteral,
 } from 'typeorm';
 import { Config } from '#database/entities/Config';
-import { Achievement, User } from '#database/entities/User';
+import { User } from '#database/entities/User';
 import { Redis, RedisOptions } from 'ioredis';
 import { DailyChallenge } from '#database/entities/DailyChallenge';
 import { Event } from '#database/entities/Event';
@@ -18,6 +18,7 @@ import { Quiz } from '#database/entities/Quiz';
 import { ActiveQuiz } from '#database/entities/ActiveQuiz';
 import { GridFSBucket, MongoClient, ReadPreference } from 'mongodb';
 import { Media } from '#database/entities/Media';
+import { Achievement } from '#database/entities/Achievement';
 
 export class Database {
   private static instance: Database;

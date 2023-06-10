@@ -13,6 +13,9 @@ export class Achievement {
   @Column({ type: 'string' })
   public id: ObjectId;
 
+  @Column({ type: 'string', nullable: true })
+  public gameId: ObjectId | null = null;
+
   @Column()
   @IsDate()
   public date: Date;
@@ -101,11 +104,12 @@ export class User {
   @UpdateDateColumn()
   public updatedAt: Date;
 
-  public static async getById(id: string): Promise<User | null> {
+  public static async getById(id: string | ObjectIdClass): Promise<User | null> {
+    const _id = typeof id === 'string' ? ObjectIdClass.createFromHexString(id) : id;
     const repository = await Database.getRepository(this);
 
     return repository.findOne({
-      where: { _id: ObjectIdClass.createFromHexString(id) },
+      where: { _id },
       cache: {
         id: `user:${id}`,
         milliseconds: 10000,

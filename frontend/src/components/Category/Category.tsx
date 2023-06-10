@@ -80,7 +80,7 @@ export default function Category(props: CategoryProps) {
         <span className={style.achievementTitle}>Achievements</span>
 
         <div className={style.achievementContent}>
-          <MaterialSymbol symbol="military_tech" class={style.icon} />
+          <MaterialSymbol symbol="emoji_events" class={style.icon} />
           {props.achievements} of {props.totalAchievements}
         </div>
       </div>

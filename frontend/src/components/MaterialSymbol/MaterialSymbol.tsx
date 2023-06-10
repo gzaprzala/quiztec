@@ -1,7 +1,12 @@
 import { MouseEventHandler } from 'react';
 import style from './MaterialSymbol.module.scss';
 
-interface MaterialSymbolProps {
+
+export type SymbolColorType = 'gray' | 'red' | 'green' | 'blue' | 'yellow' | 'primary';
+export type SymbolHighlightColorType = SymbolColorType | 'none';
+export type SymbolSizeType = 'smallest' | 'smaller' | 'small' | 'alt' | 'medium' | 'big';
+
+export interface MaterialSymbolProps {
   symbol: string;
   class?: string;
   onClick?: MouseEventHandler<HTMLSpanElement> | undefined;
