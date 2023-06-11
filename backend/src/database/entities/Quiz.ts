@@ -1,13 +1,19 @@
+import { Database } from '#database/Database';
 import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
 import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
+import { ObjectId as ObjectIdClass } from 'mongodb';
 
 export class Rating {
-  @ObjectIdColumn()
+  @Column({ type: 'string' })
   public user: ObjectId;
 
   @Column()
   @IsNumber()
-  public rating: number;
+  public rating: boolean;
+
+  @Column()
+  @IsDate()
+  public date: Date;
 }
 
 export class VisitedPlayer {
@@ -55,4 +61,14 @@ export class Quiz {
 
   @UpdateDateColumn()
   public updatedAt: Date;
+
+  public static async getById(id: string): Promise<Quiz | null> {
+    const repo = await Database.getRepository(Quiz);
+
+    return repo.findOne({
+      where: {
+        _id: ObjectIdClass.createFromHexString(id),
+      },
+    });
+  }
 }

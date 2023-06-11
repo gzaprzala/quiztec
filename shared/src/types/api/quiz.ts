@@ -48,6 +48,7 @@ export interface Round {
 export interface Game {
   id: string;
   quizId: string;
+  rated: boolean;
   userId: string | null;
   currentQuestion: number;
   totalQuestions: number;
@@ -76,4 +77,8 @@ export interface PostGameAnswerResponse {
   data: Game;
   correct: boolean;
   correctResponse: string;
+}
+
+export interface PostGameRatingRequest {
+  rating: boolean;
 }
