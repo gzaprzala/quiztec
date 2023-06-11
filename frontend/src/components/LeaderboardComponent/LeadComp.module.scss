@@ -43,6 +43,10 @@ img {
   justify-content: center;
 }
 
+.profile-picture {
+  object-fit: cover;
+}
+
 .nickname {
   display: flex;
   width: 60%;

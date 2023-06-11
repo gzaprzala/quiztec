@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import styles from "./LeadComp.module.scss";
+import { useState, useEffect } from 'react';
+import styles from './LeadComp.module.scss';
 
 interface Player {
   id: number;
@@ -22,7 +22,7 @@ const LeadComp = ({ game, category }: LeadCompProps) => {
     fetch(API_URL)
       .then((response) => response.json())
       .then((data) => setLeaderboardData(data))
-      .catch((error) => console.error("Failed to fetch data: ", error));
+      .catch((error) => console.error('Failed to fetch data: ', error));
   }, [game, category]);
 
   return (
@@ -32,7 +32,7 @@ const LeadComp = ({ game, category }: LeadCompProps) => {
           <div className={styles.row} key={player.id}>
             <div className={styles.indx}>{index + 1}</div>
             <div className={styles.profPic}>
-              <img src={player.profilePicture} />
+              <img className={styles.profilePicture} src={player.profilePicture} />
             </div>
             <div className={styles.nickname}>{player.nickname}</div>
             <div className={styles.filterValue}>{player.filterValue}</div>
