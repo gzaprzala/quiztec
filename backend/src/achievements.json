@@ -1,0 +1,46 @@
+{
+  "gameAgnostic": [
+    {
+      "identifier": "GAME_AGN_FIRST_QUIZ",
+      "name": "First Game Quiz",
+      "description": "Successfully completed the first quiz in this game."
+    },
+    {
+      "identifier": "GAME_AGN_UNDER_90",
+      "name": "Under 90",
+      "description": "Completed a quiz under 90 seconds."
+    },
+    {
+      "identifier": "GAME_AGN_UNDER_60",
+      "name": "Speedrun",
+      "description": "Completed a quiz under 60 seconds."
+    },
+    {
+      "identifier": "GAME_AGN_UNDER_30",
+      "name": "Speedrun++",
+      "description": "Completed a quiz under 30 seconds."
+    },
+    {
+      "identifier": "GAME_AGN_PERFECT_GAME",
+      "name": "Perfect Game",
+      "description": "Completed a quiz with no mistakes."
+    },
+    {
+      "identifier": "GAME_AGN_10_GAMES",
+      "name": "10 Games",
+      "description": "Completed 10 games."
+    }
+  ],
+  "system": [
+    {
+      "identifier": "TEST_ACHIEVEMENT",
+      "name": "Test Achievement",
+      "description": "This is a test achievement."
+    },
+    {
+      "identifier": "SYSTEM_FIRST_QUIZ",
+      "name": "First Quiz",
+      "description": "Successfully completed the first quiz"
+    }
+  ]
+}
