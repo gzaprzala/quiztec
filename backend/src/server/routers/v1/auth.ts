@@ -191,6 +191,7 @@ export const authRouter = (): expressRouter => {
         id: req.user._id.toHexString(),
         username: req.user.username,
         profileImageUrl: req.user.image,
+        roles: req.user.roles,
       },
     };
 

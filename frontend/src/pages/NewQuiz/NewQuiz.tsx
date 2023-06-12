@@ -5,8 +5,11 @@ import Input from '#components/Input/Input';
 import Button from '#components/Button/Button';
 import { GetQuizListResponse } from '#shared/types/api/quiz';
 import Category, { CategoryProps } from '#components/Category/Category';
+import { useSession } from '#providers/SessionProvider';
+import { Role } from '#shared/types/api/auth';
 
 const NewQuiz = () => {
+  const [session] = useSession();
   const [categories, setCategories] = useState<CategoryProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [image, setImage] = useState<string | null>(null);
@@ -22,6 +25,10 @@ const NewQuiz = () => {
   const [quizCreated, setQuizCreated] = useState(false); // New state for quiz creation status
 
   useEffect(() => {
+    if (session.user === undefined || !session.user.roles.includes(Role.ADMIN)) {
+      location.href = '/login';
+    }
+
     setLoading(true);
     fetch('http://localhost:3000/api/v1/quiz/list')
       .then((resp) => resp.json() as Promise<GetQuizListResponse>)

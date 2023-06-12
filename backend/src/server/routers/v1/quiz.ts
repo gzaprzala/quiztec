@@ -18,6 +18,7 @@ import mime from 'mime';
 import { Media } from '#database/entities/Media';
 import { Achievement } from '#database/entities/Achievement';
 import { User } from '#database/entities/User';
+import { Role } from '#shared/types/api/auth';
 
 export const quizRouter = expressRouter();
 
@@ -312,6 +313,8 @@ quizRouter.post('/new', async (req, res) => {
 
       if (req.isUnauthenticated()) return res.sendStatus(401);
       if (req.user === undefined) return res.sendStatus(401);
+
+      if (!req.user.roles.includes(Role.ADMIN)) return res.sendStatus(403);
 
       if (req.file === undefined) return res.sendStatus(400);
 

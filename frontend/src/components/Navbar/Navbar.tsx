@@ -3,6 +3,7 @@ import style from "./Navbar.module.scss";
 import MaterialSymbol from "#components/MaterialSymbol/MaterialSymbol";
 import { useState } from "react";
 import { useSession } from "#providers/SessionProvider";
+import { Role } from "#shared/types/api/auth";
 
 const Navbar = () => {
   const [session, { logout }] = useSession();
@@ -57,8 +58,9 @@ const Navbar = () => {
           <Link to="/leaderboard">Leaderboard</Link>
 
           {session.loggedIn && <Link to="/statistics">Statistics</Link>}
-          {session.loggedIn && <Link to="/newquiz">Create new quiz</Link>}
+          {session.loggedIn && session.user?.roles.includes(Role.ADMIN) && <Link to="/newquiz">Create new quiz</Link>}
           {session.loggedIn && <span onClick={logout}>Logout</span>}
+
         </div>
       </div>
     </div>

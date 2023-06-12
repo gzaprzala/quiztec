@@ -2,12 +2,8 @@ import { Database } from '#database/Database';
 import { IsArray, IsDate, IsEmail, IsString, IsUrl } from 'class-validator';
 import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
 import { ObjectId as ObjectIdClass } from 'mongodb';
+import { Role } from '#types/api/auth';
 
-export enum Role {
-  USER,
-  MODERATOR,
-  ADMIN,
-}
 
 export class Achievement {
   @Column({ type: 'string' })
