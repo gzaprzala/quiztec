@@ -4,7 +4,7 @@ import { ObjectId as ObjectIdClass } from 'mongodb';
 import { Database } from '#database/Database';
 import { display } from '#lib/display';
 import { User, Achievement as UserAchievement } from '#database/entities/User';
-import { SocketServer } from 'server/SocketServer';
+import { SocketServer } from '../../server/SocketServer';
 
 @Entity()
 export class Achievement {

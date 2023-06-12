@@ -1,11 +1,11 @@
 import { Router as expressRouter } from 'express';
-import { authRouter } from 'server/routers/v1/auth';
+import { authRouter } from './auth';
 import bodyParser from 'body-parser';
-import { quizRouter } from 'server/routers/v1/quiz';
-import { mediaRouter } from 'server/routers/v1/media';
+import { quizRouter } from './quiz';
+import { mediaRouter } from './media';
 import { profileRouter } from './profile';
-import { statsRouter } from 'server/routers/v1/stats';
-import { leaderboardRouter } from 'server/routers/v1/leaderboard';
+import { statsRouter } from './stats';
+import { leaderboardRouter } from './leaderboard';
 
 export const v1Router = expressRouter();
 
@@ -15,7 +15,7 @@ v1Router.use('/test', (req, res) =>
   res.json({
     message: 'Test',
     time: new Date(),
-  })
+  }),
 );
 
 v1Router.use('/auth', authRouter());
