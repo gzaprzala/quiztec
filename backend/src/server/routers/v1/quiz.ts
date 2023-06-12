@@ -199,10 +199,12 @@ quizRouter.get('/game/:id/question', async (req, res) => {
         quizId: question.quiz.toHexString(),
         question: question.question,
         image: question.image,
-        answers: question.answers.map((answer) => ({
-          id: answer.id.toHexString(),
-          content: answer.content,
-        })),
+        answers: question.answers
+          .map((answer) => ({
+            id: answer.id.toHexString(),
+            content: answer.content,
+          }))
+          .sort(() => Math.random() - 0.5),
       },
     };
 
