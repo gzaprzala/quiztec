@@ -17,7 +17,7 @@ const LeadComp = ({ game, category }: LeadCompProps) => {
   const [leaderboardData, setLeaderboardData] = useState<Player[]>([]);
 
   useEffect(() => {
-    const API_URL = `http://localhost:3000/api/v1/leaderboard/${game}/${category}`;
+    const API_URL = `/api/v1/leaderboard/${game}/${category}`;
 
     fetch(API_URL)
       .then((response) => response.json())

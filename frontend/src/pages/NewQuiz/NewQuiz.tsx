@@ -16,11 +16,7 @@ const NewQuiz = () => {
   const questionRef = useRef<HTMLInputElement>(null);
   const correctRef = useRef<HTMLInputElement>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
-  const incorrectRefs = [
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-  ];
+  const incorrectRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
   const [selectedCategory, setSelectedCategory] = useState('');
   const [quizCreated, setQuizCreated] = useState(false); // New state for quiz creation status
 
@@ -30,7 +26,7 @@ const NewQuiz = () => {
     }
 
     setLoading(true);
-    fetch('http://localhost:3000/api/v1/quiz/list')
+    fetch('/api/v1/quiz/list')
       .then((resp) => resp.json() as Promise<GetQuizListResponse>)
       .then((data) => {
         setCategories(data.data);
@@ -53,13 +49,9 @@ const NewQuiz = () => {
 
     const question = questionRef.current.value;
     const correctAnswer = correctRef.current.value;
-    const incorrectAnswers = incorrectRefs.map((ref) =>
-      ref.current ? ref.current.value : ''
-    );
+    const incorrectAnswers = incorrectRefs.map((ref) => (ref.current ? ref.current.value : ''));
 
-    const category = categoryOptions.find(
-      (option) => option.label === selectedCategory
-    );
+    const category = categoryOptions.find((option) => option.label === selectedCategory);
 
     if (!category) {
       console.error('Invalid category selection!');
@@ -129,19 +121,14 @@ const NewQuiz = () => {
       <div className={style.newquizContainer}>
         <span className={style.newquizText}>CREATE NEW QUIZ</span>
         <form className={style.newquizForm} onSubmit={handleSubmit}>
-          <Input
-            inputRef={questionRef}
-            placeholder='Enter question'
-            type='text'
-            className={style.newquizQuestion}
-          />
+          <Input inputRef={questionRef} placeholder="Enter question" type="text" className={style.newquizQuestion} />
 
           <div className={style.newquizCategory}>
             {categoryOptions.map((option) => (
               <label key={option.value}>
                 <input
-                  type='radio'
-                  name='category'
+                  type="radio"
+                  name="category"
                   value={option.label}
                   checked={selectedCategory === option.label}
                   onChange={handleCategoryChange}
@@ -151,36 +138,17 @@ const NewQuiz = () => {
             ))}
           </div>
 
-          <Input
-            inputRef={avatarRef}
-            type='file'
-            accept='image/*'
-            onChange={handleImageChange}
-            required
-          />
+          <Input inputRef={avatarRef} type="file" accept="image/*" onChange={handleImageChange} required />
 
-          <Input
-            inputRef={correctRef}
-            placeholder='Enter correct answer'
-            type='text'
-            className={style.newquizCorrect}
-          />
+          <Input inputRef={correctRef} placeholder="Enter correct answer" type="text" className={style.newquizCorrect} />
           {incorrectRefs.map((ref, index) => (
-            <Input
-              key={index}
-              inputRef={ref}
-              placeholder='Enter incorrect answer'
-              type='text'
-              className={style.newquizFalse}
-            />
+            <Input key={index} inputRef={ref} placeholder="Enter incorrect answer" type="text" className={style.newquizFalse} />
           ))}
-          <Button type='submit' className={style.newquizButton}>
+          <Button type="submit" className={style.newquizButton}>
             CREATE
           </Button>
         </form>
-        {quizCreated && (
-          <div className={style.successMessage}>Quiz created successfully!</div>
-        )}
+        {quizCreated && <div className={style.successMessage}>Quiz created successfully!</div>}
       </div>
     </Page>
   );

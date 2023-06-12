@@ -13,7 +13,7 @@ export default function Categories() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:3000/api/v1/quiz/list')
+    fetch('/api/v1/quiz/list')
       .then((resp) => resp.json() as Promise<GetQuizListResponse>)
       .then((data) => {
         setCategories(data.data);

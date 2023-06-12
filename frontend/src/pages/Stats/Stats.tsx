@@ -5,7 +5,7 @@ import Statistics from "#components/Statistics/Statistics";
 import { GetQuizListResponse } from "#types/api/quiz";
 import { CategoryProps } from "#components/Category/Category";
 
-const API_URL = "http://localhost:3000/api/v1/quiz/list";
+const API_URL = "/api/v1/quiz/list";
 const GAMES = [
   "Counter-Strike: Global Offensive",
   "Valorant",
