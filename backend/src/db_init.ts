@@ -9,6 +9,10 @@ import { Database } from '#database/Database';
 import { Answer, Question } from '#database/entities/Question';
 import { Quiz } from '#database/entities/Quiz';
 import { Achievement } from '#database/entities/Achievement';
+import { readFile, readFileSync } from 'fs';
+import path from 'path';
+import { Media } from '#database/entities/Media';
+import { randomUUID } from 'crypto';
 
 const main = async (): Promise<void> => {
   const { default: csgo } = await import('./csgo.json');
@@ -67,6 +71,16 @@ const main = async (): Promise<void> => {
       newQuestion.quiz = quiz._id;
       newQuestion.question = question.question;
       newQuestion.answers = question.answers.map((answer) => new Answer(answer.content, answer.correct));
+
+      if (question.imagePath) {
+        const image = readFileSync(path.join('resources', question.imagePath));
+
+        const uuid = randomUUID().slice(0, 8);
+        const extension = question.imagePath.split('.').pop();
+
+        const file = await Media.create(image, `${uuid}.${extension}`);
+        newQuestion.image = file.getURL();
+      }
 
       await questionRepo.save(newQuestion);
     }
