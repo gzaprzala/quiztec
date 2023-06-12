@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "main": "server/index.js",
   "scripts": {
-    "start": "cross-env NODE_DEV=true node .",
+    "start": "cross-env NODE_DEV=false NODE_ENV=production node .",
     "dev": "cross-env NODE_DEV=true TS_NODE_PROJECT=./backend/tsconfig.json tsnd -r tsconfig-paths/register ./backend/src/index.ts",
     "sandbox": "cross-env NODE_DEV=true TS_NODE_PROJECT=./backend/tsconfig.json tsnd -r tsconfig-paths/register ./backend/src/sandbox.ts",
     "db_init": "cross-env NODE_DEV=true TS_NODE_PROJECT=./backend/tsconfig.json ts-node -r tsconfig-paths/register ./backend/src/db_init.ts",
